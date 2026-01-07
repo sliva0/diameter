@@ -5,8 +5,6 @@ Each grouped AVP is represented by a python dataclass. Each dataclass contains
 one special attribute named `avp_def`, which is always a tuple of `AvpGenType`
 instances, which dictate to which AVP each dataclass attribute maps to.
 """
-from __future__ import annotations
-
 import dataclasses
 import datetime
 import logging
@@ -20,7 +18,7 @@ logger = logging.getLogger("diameter.avp")
 
 @dataclasses.dataclass
 class GenericSpec:
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
 
 # Grouped AVP attribute holders follow; the "weird" order is roughly the same
@@ -35,7 +33,7 @@ class FailedAvp:
     `rfc6733`, defines this as just a list of arbitrary AVPs; the actual failed
     AVPs should be copied into the `additional_avps` attribute.
     """
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = ()
 
@@ -75,7 +73,7 @@ class MipMnAaaAuth:
     mip_auth_input_data_length: int = None
     mip_authenticator_length: int = None
     mip_authenticator_offset: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -98,7 +96,7 @@ class MipMnToFaMsa:
     mip_mn_to_fa_spi: int = None
     mip_algorithm_type: int = None
     mip_nonce: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -114,7 +112,7 @@ class MipFaToMnMsa:
     mip_fa_to_mn_spi: int = None
     mip_algorithm_type: int = None
     mip_session_key: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -130,7 +128,7 @@ class MipFaToHaMsa:
     mip_fa_to_ha_spi: int = None
     mip_algorithm_type: int = None
     mip_session_key: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -146,7 +144,7 @@ class MipHaToFaMsa:
     mip_ha_to_fa_spi: int = None
     mip_algorithm_type: int = None
     mip_session_key: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -163,7 +161,7 @@ class MipMnToHaMsa:
     mip_algorithm_type: int = None
     mip_replay_mode: int = None
     mip_nonce: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -188,7 +186,7 @@ class MipHaToMnMsa:
     mip_algorithm_type: int = None
     mip_replay_mode: int = None
     mip_session_key: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -204,7 +202,7 @@ class MipOriginatingForeignAaa:
     """A data container that represents the "MIP-Originating-Foreign-AAA" (347) grouped AVP."""
     origin_realm: bytes = None
     origin_host: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -218,7 +216,7 @@ class MipHomeAgentHost:
     """A data container that represents the "MIP-Home-Agent-Host" (348) grouped AVP."""
     origin_realm: bytes = None
     origin_host: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -293,7 +291,7 @@ class UsedServiceUnit:
 
     # 3GPP extensions: ETSI 132.299
     reporting_reason: int = None
-    event_charging_timestamp: list[datetime.datetime] = dataclasses.field(default_factory=list)
+    event_charging_timestamp: "list[datetime.datetime]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -349,7 +347,7 @@ class TimeOfDayCondition:
     absolute_start_time: datetime.datetime = None
     absolute_end_time: datetime.datetime = None
     timezone_flag: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -373,11 +371,11 @@ class FinalUnitIndication:
     doesn't actually permit it.
     """
     final_unit_action: int = None
-    restriction_filter_rule: list[bytes] = dataclasses.field(default_factory=list)
-    filter_id: list[str] = dataclasses.field(default_factory=list)
+    restriction_filter_rule: "list[bytes]" = dataclasses.field(default_factory=list)
+    filter_id: "list[str]" = dataclasses.field(default_factory=list)
     redirect_server: RedirectServer = None
     # rfc8560 doesn't say this is permitted, but realworld samples say otherwise
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -393,7 +391,7 @@ class IpAddressRange:
     """A data container that represents the "IP-Address-Range" grouped AVP."""
     ip_address_start: str = None
     ip_address_end: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -407,7 +405,7 @@ class IpAddressMask:
     """A data container that represents the "IP-Address-Mask" grouped AVP."""
     ip_address: str = None
     ip_bit_mask_width: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -421,7 +419,7 @@ class MacAddressMask:
     """A data container that represents the "MAC-Address-Mask" grouped AVP."""
     mac_address: bytes = None
     mac_address_mask_pattern: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -435,7 +433,7 @@ class Eui64AddressMask:
     """A data container that represents the "EUI64-Address-Mask" grouped AVP."""
     eui64_address: bytes = None
     eui64_address_mask_pattern: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -449,7 +447,7 @@ class PortRange:
     """A data container that represents the "Port-Range" grouped AVP."""
     port_start: int = None
     port_end: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -460,18 +458,18 @@ class PortRange:
 
 @dataclasses.dataclass
 class FromToSpec:
-    ip_address: list[str] = dataclasses.field(default_factory=list)
-    ip_address_range: list[IpAddressRange] = dataclasses.field(default_factory=list)
-    ip_address_mask: list[IpAddressMask] = dataclasses.field(default_factory=list)
-    mac_address: list[bytes] = dataclasses.field(default_factory=list)
-    mac_address_mask: list[MacAddressMask] = dataclasses.field(default_factory=list)
-    eu164_address: list[str] = dataclasses.field(default_factory=list)
-    eu164_address_mask: list[Eui64AddressMask] = dataclasses.field(default_factory=list)
-    port: list[int] = dataclasses.field(default_factory=list)
-    port_range: list[PortRange] = dataclasses.field(default_factory=list)
+    ip_address: "list[str]" = dataclasses.field(default_factory=list)
+    ip_address_range: "list[IpAddressRange]" = dataclasses.field(default_factory=list)
+    ip_address_mask: "list[IpAddressMask]" = dataclasses.field(default_factory=list)
+    mac_address: "list[bytes]" = dataclasses.field(default_factory=list)
+    mac_address_mask: "list[MacAddressMask]" = dataclasses.field(default_factory=list)
+    eu164_address: "list[str]" = dataclasses.field(default_factory=list)
+    eu164_address_mask: "list[Eui64AddressMask]" = dataclasses.field(default_factory=list)
+    port: "list[int]" = dataclasses.field(default_factory=list)
+    port_range: "list[PortRange]" = dataclasses.field(default_factory=list)
     negated: int = None
     use_assigned_address: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -505,9 +503,9 @@ class ToSpec(FromToSpec):
 class IpOption:
     """A data container that represents the IP-Option AVP."""
     ip_option_type: int = None
-    ip_option_value: list[bytes] = dataclasses.field(default_factory=list)
+    ip_option_value: "list[bytes]" = dataclasses.field(default_factory=list)
     negated: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -521,9 +519,9 @@ class IpOption:
 class TcpOption(GenericSpec):
     """A data container that represents the Tcp-Option AVP."""
     tcp_option_type: int = None
-    tcp_option_value: list[bytes] = dataclasses.field(default_factory=list)
+    tcp_option_value: "list[bytes]" = dataclasses.field(default_factory=list)
     negated: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -538,7 +536,7 @@ class TcpFlags:
     """A data container that represents the Tcp-Flags AVP."""
     tcp_flag_type: int = None
     negated: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -551,9 +549,9 @@ class TcpFlags:
 class IcmpType:
     """A data container that represents the ICMP-Type AVP."""
     icmp_type_number: int = None
-    icmp_code: list[int] = dataclasses.field(default_factory=list)
+    icmp_code: "list[int]" = dataclasses.field(default_factory=list)
     negated: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -566,9 +564,9 @@ class IcmpType:
 @dataclasses.dataclass
 class EthProtoType:
     """A data container that represents the ETH-Proto-Type AVP."""
-    eth_ether_type: list[bytes] = dataclasses.field(default_factory=list)
-    eth_sap: list[bytes] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    eth_ether_type: "list[bytes]" = dataclasses.field(default_factory=list)
+    eth_sap: "list[bytes]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -580,9 +578,9 @@ class EthProtoType:
 @dataclasses.dataclass
 class UserPriorityRange:
     """A data container that represents the User-Priority-Range AVP."""
-    low_user_priority: list[int] = dataclasses.field(default_factory=list)
-    high_user_priority: list[int] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    low_user_priority: "list[int]" = dataclasses.field(default_factory=list)
+    high_user_priority: "list[int]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -598,7 +596,7 @@ class VlanIdRange:
     s_vid_end: int = None
     c_vid_start: int = None
     c_vid_end: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -613,9 +611,9 @@ class VlanIdRange:
 class EthOption:
     """A data container that represents the ETH-Option AVP."""
     eth_proto_type: EthProtoType = None
-    vlan_id_range: list[VlanIdRange] = dataclasses.field(default_factory=list)
-    user_priority_range: list[int] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    vlan_id_range: "list[VlanIdRange]" = dataclasses.field(default_factory=list)
+    user_priority_range: "list[int]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -631,16 +629,16 @@ class Classifier:
     classifier_id: int = None
     protocol: int = None
     direction: int = None
-    from_spec: list[FromSpec] = dataclasses.field(default_factory=list)
-    to_spec: list[ToSpec] = dataclasses.field(default_factory=list)
-    diffserv_code_point: list[int] = dataclasses.field(default_factory=list)
+    from_spec: "list[FromSpec]" = dataclasses.field(default_factory=list)
+    to_spec: "list[ToSpec]" = dataclasses.field(default_factory=list)
+    diffserv_code_point: "list[int]" = dataclasses.field(default_factory=list)
     fragmentation_flag: int = None
-    ip_option: list[IpOption] = dataclasses.field(default_factory=list)
-    tcp_option: list[TcpOption] = dataclasses.field(default_factory=list)
+    ip_option: "list[IpOption]" = dataclasses.field(default_factory=list)
+    tcp_option: "list[TcpOption]" = dataclasses.field(default_factory=list)
     tcp_flags: TcpFlags = None
-    icmp_type: list[IcmpType] = dataclasses.field(default_factory=list)
-    eth_option: list[EthOption] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    icmp_type: "list[IcmpType]" = dataclasses.field(default_factory=list)
+    eth_option: "list[EthOption]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -662,7 +660,7 @@ class Classifier:
 @dataclasses.dataclass
 class QosParameters:
     """A data container that represents the "QoS-Parameters" grouped AVP."""
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = ()
 
@@ -672,7 +670,7 @@ class QosProfileTemplate:
     """A data container that represents the "QoS-Profile-Template" grouped AVP."""
     vendor_id: int = None
     qos_profile_id: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -687,7 +685,7 @@ class ExcessTreatment:
     treatment_action: int = None
     qos_profile_template: QosProfileTemplate = None
     qos_parameters: QosParameters = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -706,7 +704,7 @@ class FilterRule:
     """
     filter_rule_precedence: int = None
     classifier: Classifier = None
-    time_of_day_condition: list[TimeOfDayCondition] = dataclasses.field(default_factory=list)
+    time_of_day_condition: "list[TimeOfDayCondition]" = dataclasses.field(default_factory=list)
     treatment_action: int = None
     qos_semantics: int = None
     qos_profile_template: QosProfileTemplate = None
@@ -825,7 +823,7 @@ class RedirectServerExtension:
     redirect_address_ipaddress: str = None
     redirect_address_url: str = None
     redirect_address_sip_url: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -839,10 +837,10 @@ class RedirectServerExtension:
 class QosFinalUnitIndication:
     """A data container that represents the "QoS-Final-Unit-Indication" (669) grouped AVP."""
     final_unit_action: int = None
-    filter_rule: list[FilterRule] = dataclasses.field(default_factory=list)
-    filter_id: list[str] = dataclasses.field(default_factory=list)
+    filter_rule: "list[FilterRule]" = dataclasses.field(default_factory=list)
+    filter_id: "list[str]" = dataclasses.field(default_factory=list)
     redirect_server_extension: RedirectServerExtension = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -888,7 +886,7 @@ class ChapAuth:
     chap_algorithm: int = None
     chap_ident: bytes = None
     chap_response: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -905,7 +903,7 @@ class OcSupportedFeatures:
     rfc7683
     """
     oc_feature_vector: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -923,7 +921,7 @@ class OcOlr:
     oc_report_type: int = None
     oc_reduction_percentage: int = None
     oc_validity_duration: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -941,11 +939,11 @@ class Flows:
     3GPP TS 29.214 version 16.3.0
     """
     media_component_number: int = None
-    flow_number: list[int] = dataclasses.field(default_factory=list)
-    content_version: list[int] = dataclasses.field(default_factory=list)
+    flow_number: "list[int]" = dataclasses.field(default_factory=list)
+    content_version: "list[int]" = dataclasses.field(default_factory=list)
     final_unit_action: int = None
     media_component_status: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -964,9 +962,9 @@ class CalleeInformation:
     3GPP TS 29.214 version 16.3.0
     """
     called_party_address: str = None
-    requested_party_address: list[str] = dataclasses.field(default_factory=list)
-    called_asserted_identity: list[str] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    requested_party_address: "list[str]" = dataclasses.field(default_factory=list)
+    called_asserted_identity: "list[str]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -982,10 +980,10 @@ class ServerCapabilities:
 
     3GPP TS 29.229 version 11.3.0
     """
-    mandatory_capability: list[int] = dataclasses.field(default_factory=list)
-    optional_capability: list[int] = dataclasses.field(default_factory=list)
-    server_name: list[str] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    mandatory_capability: "list[int]" = dataclasses.field(default_factory=list)
+    optional_capability: "list[int]" = dataclasses.field(default_factory=list)
+    server_name: "list[str]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1005,7 +1003,7 @@ class SipDigestAuthenticate:
     digest_algorithm: str = None
     digest_qop: str = None
     digest_ha1: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1033,8 +1031,8 @@ class SipAuthDataItem:
     framed_ip_address: bytes = None
     framed_ipv6_prefix: bytes = None
     framed_interface_id: int = None
-    line_identifier: list[bytes] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    line_identifier: "list[bytes]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1061,7 +1059,7 @@ class DeregistrationReason:
     """
     reason_code: int = None
     reason_info: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1080,7 +1078,7 @@ class ChargingInformation:
     secondary_event_charging_function_name: str = None
     primary_charging_collection_function_name: str = None
     secondary_charging_collection_function_name: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1100,7 +1098,7 @@ class SupportedFeatures:
     vendor_id: int = None
     feature_list_id: int = None
     feature_list: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1116,8 +1114,8 @@ class AssociatedIdentities:
 
     3GPP TS 29.229 version 13.1.0
     """
-    user_name: list[str] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    user_name: "list[str]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1136,7 +1134,7 @@ class SubscriptionInfo:
     to_sip_header: bytes = None
     record_route: bytes = None
     contact: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1154,8 +1152,8 @@ class AssociatedRegisteredIdentities:
 
     3GPP TS 29.229 version 13.1.0
     """
-    user_name: list[str] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    user_name: "list[str]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1174,7 +1172,7 @@ class RestorationInfo:
     initial_cseq_sequence_number: int = None
     call_id_sip_header: bytes = None
     subscription_info: SubscriptionInfo = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1195,7 +1193,7 @@ class ScscfRestorationInfo:
     user_name: str = None
     restoration_info: RestorationInfo = None
     sip_authentication_scheme: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1213,7 +1211,7 @@ class IdentityWithEmergencyRegistration:
     """
     user_name: str = None
     public_identity: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1228,9 +1226,9 @@ class AllowedWafWwsfIdentities:
 
     3GPP TS 29.229 version 13.1.0
     """
-    webrtc_authentication_function_name: list[str] = dataclasses.field(default_factory=list)
-    webrtc_web_server_function_name: list[str] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    webrtc_authentication_function_name: "list[str]" = dataclasses.field(default_factory=list)
+    webrtc_web_server_function_name: "list[str]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1300,7 +1298,7 @@ class SdpMediaComponent:
     3GPP TS 32.299 version 16.2.0
     """
     sdp_media_name: str = None
-    sdp_media_description: list[str] = dataclasses.field(default_factory=list)
+    sdp_media_description: "list[str]" = dataclasses.field(default_factory=list)
     local_gw_inserted_indication: int = None
     ip_realm_default_indication: int = None
     transcoder_inserted_indication: int = None
@@ -1332,7 +1330,7 @@ class ApplicationServerInformation:
     3GPP TS 32.299 version 16.2.0
     """
     application_server: str = None
-    application_provided_called_party_address: list[str] = dataclasses.field(default_factory=list)
+    application_provided_called_party_address: "list[str]" = dataclasses.field(default_factory=list)
     status_as_code: int = None
 
     # noinspection PyDataclass
@@ -1621,7 +1619,7 @@ class MmContentType:
     type_number: int = None
     additional_type_information: str = None
     content_size: int = None
-    additional_content_information: list[AdditionalContentInformation] = dataclasses.field(default_factory=list)
+    additional_content_information: "list[AdditionalContentInformation]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1734,7 +1732,7 @@ class Trigger:
 
     3GPP TS 32.299 version 16.2.0
     """
-    trigger_type: list[int] = dataclasses.field(default_factory=list)
+    trigger_type: "list[int]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1805,8 +1803,8 @@ class EarlyMediaDescription:
     3GPP TS 32.299 version 16.2.0
     """
     sdp_timestamps: SdpTimestamps = None
-    sdp_media_component: list[SdpMediaComponent] = dataclasses.field(default_factory=list)
-    sdp_session_description: list[str] = dataclasses.field(default_factory=list)
+    sdp_media_component: "list[SdpMediaComponent]" = dataclasses.field(default_factory=list)
+    sdp_session_description: "list[str]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1823,7 +1821,7 @@ class AfCorrelationInformation:
     3GPP TS 32.299 version 16.2.0
     """
     af_charging_identifier: bytes = None
-    flows: list[Flows] = dataclasses.field(default_factory=list)
+    flows: "list[Flows]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -1897,7 +1895,7 @@ class TerminalInformation:
     imei: str = None
     tgpp2_meid: bytes = None
     software_version: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2006,8 +2004,8 @@ class RecipientInfo:
     3GPP TS 32.299 version 16.2.0
     """
     destination_interface: DestinationInterface = None
-    recipient_address: list[RecipientAddress] = dataclasses.field(default_factory=list)
-    recipient_received_address: list[RecipientReceivedAddress] = dataclasses.field(default_factory=list)
+    recipient_address: "list[RecipientAddress]" = dataclasses.field(default_factory=list)
+    recipient_received_address: "list[RecipientReceivedAddress]" = dataclasses.field(default_factory=list)
     recipient_sccp_address: str = None
     sm_protocol_id: bytes = None
 
@@ -2054,7 +2052,7 @@ class ServingNode:
     tgpp_aaa_server_name: bytes = None
     lcs_capabilities_sets: int = None
     gmlc_address: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2097,7 +2095,7 @@ class AccessTransferInformation:
     33GPP TS 32.299 version 16.2.0
     """
     access_transfer_type: int = None
-    access_network_information: list[str] = dataclasses.field(default_factory=list)
+    access_network_information: "list[str]" = dataclasses.field(default_factory=list)
     cellular_network_information: bytes = None
     inter_ue_transfer: int = None
     user_equipment_info: UserEquipmentInfo = None
@@ -2151,7 +2149,7 @@ class PresenceReportingAreaInformation:
     presence_reporting_area_identifier: bytes = None
     presence_reporting_area_status: int = None
     presence_reporting_area_elements_list: bytes = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2169,7 +2167,7 @@ class PolicyCounterStatusReport:
     """
     policy_counter_identifier: str = None
     policy_counter_status: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2208,7 +2206,7 @@ class EnhancedDiagnostics:
 
     3GPP TS 32.299 version 16.2.0
     """
-    ran_nas_release_cause: list[bytes] = dataclasses.field(default_factory=list)
+    ran_nas_release_cause: "list[bytes]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2241,7 +2239,7 @@ class AnnouncementInformation:
     3GPP TS 32.299 version 16.2.0
     """
     announcement_identifier: int = None
-    variable_part: list[VariablePart] = dataclasses.field(default_factory=list)
+    variable_part: "list[VariablePart]" = dataclasses.field(default_factory=list)
     time_indicator: int = None
     quota_indicator: int = None
     announcement_order: int = None
@@ -2311,7 +2309,7 @@ class RelatedChangeConditionInformation:
     3GPP TS 32.299 version 16.2.0
     """
     sgsn_address: str = None
-    change_condition: list[int] = dataclasses.field(default_factory=list)
+    change_condition: "list[int]" = dataclasses.field(default_factory=list)
     tgpp_user_location_info: bytes = None
     tgpp2_bsid: str = None
     uwan_user_location_info: UwanUserLocationInfo = None
@@ -2392,7 +2390,7 @@ class ServingPlmnRateControl:
     """
     uplink_rate_limit: int = None
     downlink_rate_limit: int = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2407,7 +2405,7 @@ class AccessNetworkInfoChange:
 
     33GPP TS 32.299 version 16.2.0
     """
-    access_network_information: list[str] = dataclasses.field(default_factory=list)
+    access_network_information: "list[str]" = dataclasses.field(default_factory=list)
     cellular_network_information: bytes = None
     change_time: datetime.datetime = None
 
@@ -2440,14 +2438,14 @@ class ServiceDataContainer:
     time_first_usage: datetime.datetime = None
     time_last_usage: datetime.datetime = None
     time_usage: int = None
-    change_condition: list[int] = dataclasses.field(default_factory=list)
+    change_condition: "list[int]" = dataclasses.field(default_factory=list)
     tgpp_user_location_info: bytes = None
     tgpp2_bsid: str = None
     uwan_user_location_info: UwanUserLocationInfo = None
     twan_user_location_info: TwanUserLocationInfo = None
     sponsor_identity: str = None
     application_service_provider_identity: str = None
-    presence_reporting_area_information: list[PresenceReportingAreaInformation] = dataclasses.field(default_factory=list)
+    presence_reporting_area_information: "list[PresenceReportingAreaInformation]" = dataclasses.field(default_factory=list)
     presence_reporting_area_status: int = None
     user_csg_information: UserCsgInformation = None
     tgpp_rat_type: bytes = None
@@ -2512,7 +2510,7 @@ class TrafficDataVolumes:
     uwan_user_location_info: UwanUserLocationInfo = None
     tgpp_charging_id: bytes = None
     presence_reporting_area_status: int = None
-    presence_reporting_area_information: list[PresenceReportingAreaInformation] = dataclasses.field(default_factory=list)
+    presence_reporting_area_information: "list[PresenceReportingAreaInformation]" = dataclasses.field(default_factory=list)
     user_csg_information: UserCsgInformation = None
     tgpp_rat_type: bytes = None
     access_availability_change_reason: int = None
@@ -2558,7 +2556,7 @@ class FixedUserLocationInfo:
     bssid: str = None
     logical_access_id: bytes = None
     physical_access_id: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2659,7 +2657,7 @@ class CoverageInfo:
     """
     coverage_status: int = None
     change_time: datetime.datetime = None
-    location_info: list[LocationInfo] = dataclasses.field(default_factory=list)
+    location_info: "list[LocationInfo]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2739,7 +2737,7 @@ class RelatedTrigger:
 
     3GPP TS 32.299 version 16.2.0
     """
-    trigger_type: list[int] = dataclasses.field(default_factory=list)
+    trigger_type: "list[int]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2794,7 +2792,7 @@ class RrcCauseCounter:
     """
     counter_value: int = None
     rrc_counter_timestamp: datetime.datetime = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2808,11 +2806,11 @@ class MultipleServicesCreditControl:
     """A data container that represents the "Multiple-Services-Credit-Control" (456) grouped AVP."""
     granted_service_unit: GrantedServiceUnit = None
     requested_service_unit: RequestedServiceUnit = None
-    used_service_unit: list[UsedServiceUnit] = dataclasses.field(default_factory=list)
+    used_service_unit: "list[UsedServiceUnit]" = dataclasses.field(default_factory=list)
     tariff_change_usage: int = None
-    service_identifier: list[int] = dataclasses.field(default_factory=list)
+    service_identifier: "list[int]" = dataclasses.field(default_factory=list)
     rating_group: int = None
-    g_s_u_pool_reference: list[GsuPoolReference] = dataclasses.field(default_factory=list)
+    g_s_u_pool_reference: "list[GsuPoolReference]" = dataclasses.field(default_factory=list)
     validity_time: int = None
     result_code: int = None
     final_unit_indication: FinalUnitIndication = None
@@ -2823,20 +2821,20 @@ class MultipleServicesCreditControl:
     unit_quota_threshold: int = None
     quota_holding_time: int = None
     quota_consumption_time: int = None
-    reporting_reason: list[int] = dataclasses.field(default_factory=list)
+    reporting_reason: "list[int]" = dataclasses.field(default_factory=list)
     trigger: Trigger = None
     ps_furnish_charging_information: PsFurnishChargingInformation = None
     refund_information: bytes = None
-    af_correlation_information: list[AfCorrelationInformation] = dataclasses.field(default_factory=list)
-    envelope: list[Envelope] = dataclasses.field(default_factory=list)
+    af_correlation_information: "list[AfCorrelationInformation]" = dataclasses.field(default_factory=list)
+    envelope: "list[Envelope]" = dataclasses.field(default_factory=list)
     envelope_reporting: int = None
     time_quota_mechanism: TimeQuotaMechanism = None
-    service_specific_info: list[ServiceSpecificInfo] = dataclasses.field(default_factory=list)
+    service_specific_info: "list[ServiceSpecificInfo]" = dataclasses.field(default_factory=list)
     qos_information: QosInformation = None
-    announcement_information: list[AnnouncementInformation] = dataclasses.field(default_factory=list)
+    announcement_information: "list[AnnouncementInformation]" = dataclasses.field(default_factory=list)
     tgpp_rat_type: bytes = None
     related_trigger: RelatedTrigger = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2881,8 +2879,8 @@ class OfflineCharging:
     quota_consumption_time: int = None
     time_quota_mechanism: TimeQuotaMechanism = None
     envelope_reporting: int = None
-    multiple_services_credit_control: list[MultipleServicesCreditControl] = dataclasses.field(default_factory=list)
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    multiple_services_credit_control: "list[MultipleServicesCreditControl]" = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -2899,22 +2897,22 @@ class PsInformation:
 
     3GPP TS 32.299 version 16.2.0
     """
-    supported_features: list[SupportedFeatures] = dataclasses.field(default_factory=list)
+    supported_features: "list[SupportedFeatures]" = dataclasses.field(default_factory=list)
     tgpp_charging_id: bytes = None
     pdn_connection_charging_id: bytes = None
     node_id: str = None
     tgpp_pdp_type: int = None
-    pdp_address: list[str] = dataclasses.field(default_factory=list)
+    pdp_address: "list[str]" = dataclasses.field(default_factory=list)
     pdp_address_prefix_length: int = None
     dynamic_address_flag: int = None
     dynamic_address_flag_extension: int = None
     qos_information: QosInformation = None
-    sgsn_address: list[str] = dataclasses.field(default_factory=list)
-    ggsn_address: list[str] = dataclasses.field(default_factory=list)
-    tdf_ip_address: list[str] = dataclasses.field(default_factory=list)
-    sgw_address: list[str] = dataclasses.field(default_factory=list)
-    epdg_address: list[str] = dataclasses.field(default_factory=list)
-    twag_address: list[str] = dataclasses.field(default_factory=list)
+    sgsn_address: "list[str]" = dataclasses.field(default_factory=list)
+    ggsn_address: "list[str]" = dataclasses.field(default_factory=list)
+    tdf_ip_address: "list[str]" = dataclasses.field(default_factory=list)
+    sgw_address: "list[str]" = dataclasses.field(default_factory=list)
+    epdg_address: "list[str]" = dataclasses.field(default_factory=list)
+    twag_address: "list[str]" = dataclasses.field(default_factory=list)
     cg_address: str = None
     serving_node_type: int = None
     sgw_change: int = None
@@ -2934,7 +2932,7 @@ class PsInformation:
     tgpp_user_location_info: bytes = None
     user_location_info_time: datetime.datetime = None
     user_csg_information: UserCsgInformation = None
-    presence_reporting_area_information: list[PresenceReportingAreaInformation] = dataclasses.field(default_factory=list)
+    presence_reporting_area_information: "list[PresenceReportingAreaInformation]" = dataclasses.field(default_factory=list)
     tgpp2_bsid: str = None
     twan_user_location_info: TwanUserLocationInfo = None
     uwan_user_location_info: UwanUserLocationInfo = None
@@ -2942,8 +2940,8 @@ class PsInformation:
     ps_furnish_charging_information: PsFurnishChargingInformation = None
     pdp_context_type: int = None
     offline_charging: OfflineCharging = None
-    traffic_data_volumes: list[TrafficDataVolumes] = dataclasses.field(default_factory=list)
-    service_data_container: list[ServiceDataContainer] = dataclasses.field(default_factory=list)
+    traffic_data_volumes: "list[TrafficDataVolumes]" = dataclasses.field(default_factory=list)
+    service_data_container: "list[ServiceDataContainer]" = dataclasses.field(default_factory=list)
     user_equipment_info: UserEquipmentInfo = None
     terminal_information: TerminalInformation = None
     start_time: datetime.datetime = None
@@ -2971,7 +2969,7 @@ class PsInformation:
     tgpp_ps_data_off_status: int = None
     scs_as_address: ScsAsAddress = None
     unused_quota_timer: int = None
-    ran_secondary_rat_usage_report: list[RanSecondaryRatUsageReport] = dataclasses.field(default_factory=list)
+    ran_secondary_rat_usage_report: "list[RanSecondaryRatUsageReport]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -3070,7 +3068,7 @@ class SmsInformation:
     sm_status: bytes = None
     sm_user_data_header: bytes = None
     number_of_messages_sent: int = None
-    recipient_info: list[RecipientInfo] = dataclasses.field(default_factory=list)
+    recipient_info: "list[RecipientInfo]" = dataclasses.field(default_factory=list)
     originator_received_address: OriginatorReceivedAddress = None
     sm_service_type: int = None
     sms_result: int = None
@@ -3146,7 +3144,7 @@ class AocCostInformation:
     3GPP TS 32.299 version 16.2.0
     """
     accumulated_cost: AccumulatedCost = None
-    incremental_cost: list[IncrementalCost] = dataclasses.field(default_factory=list)
+    incremental_cost: "list[IncrementalCost]" = dataclasses.field(default_factory=list)
     currency_code: int = None
 
     # noinspection PyDataclass
@@ -3219,7 +3217,7 @@ class CurrentTariff:
     """
     currency_code: int = None
     scale_factor: ScaleFactor = None
-    rate_element: list[RateElement] = dataclasses.field(default_factory=list)
+    rate_element: "list[RateElement]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -3238,7 +3236,7 @@ class NextTariff:
     """
     currency_code: int = None
     scale_factor: ScaleFactor = None
-    rate_element: list[RateElement] = dataclasses.field(default_factory=list)
+    rate_element: "list[RateElement]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -3305,7 +3303,7 @@ class AocSubscriptionInformation:
 
     3GPP TS 32.299 version 16.2.0
     """
-    aoc_service: list[AocService] = dataclasses.field(default_factory=list)
+    aoc_service: "list[AocService]" = dataclasses.field(default_factory=list)
     aoc_format: int = None
     preferred_aoc_currency: int = None
 
@@ -3373,7 +3371,7 @@ class MmtelInformation:
 
     3GPP TS 32.299 version 16.2.0
     """
-    supplementary_service: list[SupplementaryService] = dataclasses.field(default_factory=list)
+    supplementary_service: "list[SupplementaryService]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -3393,46 +3391,46 @@ class ImsInformation:
     user_session_id: str = None
     outgoing_session_id: str = None
     session_priority: int = None
-    calling_party_address: list[str] = dataclasses.field(default_factory=list)
+    calling_party_address: "list[str]" = dataclasses.field(default_factory=list)
     called_party_address: str = None
-    called_asserted_identity: list[str] = dataclasses.field(default_factory=list)
+    called_asserted_identity: "list[str]" = dataclasses.field(default_factory=list)
     called_identity_change: CalledIdentityChange = None
     number_portability_routing_information: str = None
     carrier_select_routing_information: str = None
     alternate_charged_party_address: str = None
-    requested_party_address: list[str] = dataclasses.field(default_factory=list)
-    associated_uri: list[str] = dataclasses.field(default_factory=list)
+    requested_party_address: "list[str]" = dataclasses.field(default_factory=list)
+    associated_uri: "list[str]" = dataclasses.field(default_factory=list)
     time_stamps: TimeStamps = None
-    application_server_information: list[ApplicationServerInformation] = dataclasses.field(default_factory=list)
-    inter_operator_identifier: list[InterOperatorIdentifier] = dataclasses.field(default_factory=list)
-    transit_ioi_list: list[str] = dataclasses.field(default_factory=list)
+    application_server_information: "list[ApplicationServerInformation]" = dataclasses.field(default_factory=list)
+    inter_operator_identifier: "list[InterOperatorIdentifier]" = dataclasses.field(default_factory=list)
+    transit_ioi_list: "list[str]" = dataclasses.field(default_factory=list)
     ims_charging_identifier: str = None
-    sdp_session_description: list[str] = dataclasses.field(default_factory=list)
-    sdp_media_component: list[SdpMediaComponent] = dataclasses.field(default_factory=list)
+    sdp_session_description: "list[str]" = dataclasses.field(default_factory=list)
+    sdp_media_component: "list[SdpMediaComponent]" = dataclasses.field(default_factory=list)
     served_party_ip_address: str = None
     server_capabilities: ServerCapabilities = None
     trunk_group_id: TrunkGroupId = None
     bearer_service: bytes = None
     service_id: str = None
-    service_specific_info: list[ServiceSpecificInfo] = dataclasses.field(default_factory=list)
-    message_body: list[MessageBody] = dataclasses.field(default_factory=list)
+    service_specific_info: "list[ServiceSpecificInfo]" = dataclasses.field(default_factory=list)
+    message_body: "list[MessageBody]" = dataclasses.field(default_factory=list)
     cause_code: int = None
-    reason_header: list[str] = dataclasses.field(default_factory=list)
-    access_network_information: list[str] = dataclasses.field(default_factory=list)
+    reason_header: "list[str]" = dataclasses.field(default_factory=list)
+    access_network_information: "list[str]" = dataclasses.field(default_factory=list)
     cellular_network_information: bytes = None
-    early_media_description: list[EarlyMediaDescription] = dataclasses.field(default_factory=list)
+    early_media_description: "list[EarlyMediaDescription]" = dataclasses.field(default_factory=list)
     ims_communication_service_identifier: str = None
     ims_application_reference_identifier: str = None
     online_charging_flag: int = None
     real_time_tariff_information: RealTimeTariffInformation = None
     account_expiration: datetime.datetime = None
     initial_ims_charging_identifier: str = None
-    nni_information: list[NniInformation] = dataclasses.field(default_factory=list)
+    nni_information: "list[NniInformation]" = dataclasses.field(default_factory=list)
     from_address: str = None
     ims_emergency_indicator: int = None
     ims_visited_network_identifier: str = None
-    access_network_info_change: list[AccessNetworkInfoChange] = dataclasses.field(default_factory=list)
-    access_transfer_information: list[AccessTransferInformation] = dataclasses.field(default_factory=list)
+    access_network_info_change: "list[AccessNetworkInfoChange]" = dataclasses.field(default_factory=list)
+    access_transfer_information: "list[AccessTransferInformation]" = dataclasses.field(default_factory=list)
     related_ims_charging_identifier: str = None
     related_ims_charging_identifier_node: str = None
     route_header_received: str = None
@@ -3506,7 +3504,7 @@ class MmsInformation:
     3GPP TS 32.299 version 16.2.0
     """
     originator_address: OriginatorAddress = None
-    recipient_address: list[RecipientAddress] = dataclasses.field(default_factory=list)
+    recipient_address: "list[RecipientAddress]" = dataclasses.field(default_factory=list)
     submission_time: datetime.datetime = None
     mm_content_type: MmContentType = None
     priority: int = None
@@ -3564,9 +3562,9 @@ class PocInformation:
     poc_event_type: int = None
     number_of_participants: int = None
     # this is present for backwards compatibility with 3GPP release 7
-    participants_involved: list[str] = dataclasses.field(default_factory=list)
-    participant_group: list[ParticipantGroup] = dataclasses.field(default_factory=list)
-    talk_burst_exchange: list[TalkBurstExchange] = dataclasses.field(default_factory=list)
+    participants_involved: "list[str]" = dataclasses.field(default_factory=list)
+    participant_group: "list[ParticipantGroup]" = dataclasses.field(default_factory=list)
+    talk_burst_exchange: "list[TalkBurstExchange]" = dataclasses.field(default_factory=list)
     poc_controlling_address: str = None
     poc_group_name: str = None
     poc_session_id: str = None
@@ -3603,12 +3601,12 @@ class MbmsInformation:
     required_mbms_bearer_capabilities: str = None
     mbms_2g_3g_indicator: int = None
     rai: str = None
-    mbms_service_area: list[bytes] = dataclasses.field(default_factory=list)
+    mbms_service_area: "list[bytes]" = dataclasses.field(default_factory=list)
     mbms_session_identity: bytes = None
     cn_ip_multicast_distribution: int = None
     mbms_gw_address: str = None
     mbms_charged_party: int = None
-    msisdn: list[bytes] = dataclasses.field(default_factory=list)
+    msisdn: "list[bytes]" = dataclasses.field(default_factory=list)
     mbms_data_transfer_start: int = None
     mbms_data_transfer_stop: int = None
 
@@ -3662,7 +3660,7 @@ class M2mInformation:
     current_number_members: int = None
     subgroup_name: str = None
     node_id: str = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -3791,7 +3789,7 @@ class ProseInformation:
 
     3GPP TS 32.299 version 16.2.0
     """
-    supported_features: list[SupportedFeatures] = dataclasses.field(default_factory=list)
+    supported_features: "list[SupportedFeatures]" = dataclasses.field(default_factory=list)
     announcing_ue_hplmn_identifier: str = None
     announcing_ue_vplmn_identifier: str = None
     monitoring_ue_hplmn_identifier: str = None
@@ -3828,13 +3826,13 @@ class ProseInformation:
     prose_source_ip_address: str = None
     layer_2_group_id: bytes = None
     prose_group_ip_multicast_address: str = None
-    coverage_info: list[CoverageInfo] = dataclasses.field(default_factory=list)
-    radio_parameter_set_info: list[RadioParameterSetInfo] = dataclasses.field(default_factory=list)
-    transmitter_info: list[TransmitterInfo] = dataclasses.field(default_factory=list)
+    coverage_info: "list[CoverageInfo]" = dataclasses.field(default_factory=list)
+    radio_parameter_set_info: "list[RadioParameterSetInfo]" = dataclasses.field(default_factory=list)
+    transmitter_info: "list[TransmitterInfo]" = dataclasses.field(default_factory=list)
     time_first_transmission: datetime.datetime = None
     time_first_reception: datetime.datetime = None
-    prose_direct_communication_transmission_data_container: list[ProSeDirectCommunicationTransmissionDataContainer] = dataclasses.field(default_factory=list)
-    prose_direct_communication_reception_data_container: list[ProSeDirectCommunicationReceptionDataContainer] = dataclasses.field(default_factory=list)
+    prose_direct_communication_transmission_data_container: "list[ProSeDirectCommunicationTransmissionDataContainer]" = dataclasses.field(default_factory=list)
+    prose_direct_communication_reception_data_container: "list[ProSeDirectCommunicationReceptionDataContainer]" = dataclasses.field(default_factory=list)
     announcing_plmn_id: str = None
     prose_target_layer_2_id: bytes = None
     relay_ip_address: str = None
@@ -3925,7 +3923,7 @@ class ServiceInformation:
 
     3GPP TS 32.299 version 16.2.0
     """
-    subscription_id: list[SubscriptionId] = dataclasses.field(default_factory=list)
+    subscription_id: "list[SubscriptionId]" = dataclasses.field(default_factory=list)
     aoc_information: AocInformation = None
     ps_information: PsInformation = None
     sms_information: SmsInformation = None
@@ -3942,7 +3940,7 @@ class ServiceInformation:
     dcd_information: DcdInformation = None
     m2m_information: M2mInformation = None
     cpdt_information: CpdtInformation = None
-    additional_avps: list[Avp] = dataclasses.field(default_factory=list)
+    additional_avps: "list[Avp]" = dataclasses.field(default_factory=list)
 
     # noinspection PyDataclass
     avp_def: dataclasses.InitVar[AvpGenType] = (
@@ -3993,7 +3991,7 @@ class DefaultEpsBearerQos:
 @dataclasses.dataclass
 class MediaSubComponent:
     """A data container that represents the "Media-Sub-Component" (1436) grouped AVP."""
-    flow_description: list[str] = dataclasses.field(default_factory=list)
+    flow_description: "list[str]" = dataclasses.field(default_factory=list)
     flow_usage: int = None
     flow_number: int = None
     flow_status: int = None
@@ -4011,7 +4009,7 @@ class MediaSubComponent:
 class MediaComponentDescription:
     """A data container that represents the "Media-Component-Description" (1435) grouped AVP."""
     media_component_number: int = None
-    media_sub_component: list[MediaSubComponent] = dataclasses.field(default_factory=list)
+    media_sub_component: "list[MediaSubComponent]" = dataclasses.field(default_factory=list)
     # Need AF-Application-Identifier, Max-Requested-Bandwith-UL and DL
     af_application_identifier: str = None
     max_requested_bandwidth_ul: int = None
@@ -4032,8 +4030,8 @@ class MediaComponentDescription:
 @dataclasses.dataclass
 class ChargingRuleInstall:
     """A data container that represents the "Charging-Rule-Install" (1001) grouped AVP."""
-    charging_rule_base_name: list[Avp] = dataclasses.field(default_factory=list)
-    charging_rule_name: list[Avp] = dataclasses.field(default_factory=list)
+    charging_rule_base_name: "list[Avp]" = dataclasses.field(default_factory=list)
+    charging_rule_name: "list[Avp]" = dataclasses.field(default_factory=list)
 
     avp_def: dataclasses.InitVar[AvpGenType] = (
         AvpGenDef("charging_rule_base_name", AVP_TGPP_CHARGING_RULE_BASE_NAME, VENDOR_TGPP),
@@ -4043,8 +4041,8 @@ class ChargingRuleInstall:
 @dataclasses.dataclass
 class ChargingRuleRemove:
     """A data container that represents the "Charging-Rule-Remove" (1002) grouped AVP."""
-    charging_rule_base_name: list[Avp] = dataclasses.field(default_factory=list)
-    charging_rule_name: list[Avp] = dataclasses.field(default_factory=list)
+    charging_rule_base_name: "list[Avp]" = dataclasses.field(default_factory=list)
+    charging_rule_name: "list[Avp]" = dataclasses.field(default_factory=list)
 
     avp_def: dataclasses.InitVar[AvpGenType] = (
         AvpGenDef("charging_rule_base_name", AVP_TGPP_CHARGING_RULE_BASE_NAME, VENDOR_TGPP),

@@ -4,8 +4,6 @@ Copied and updated from python 3.12 stdlib's xdrlib.
 As xdrlib will be removed in Python 3.13, this module preserves the Packer and
 Unpacker functionality from it, while making slight upgrades.
 """
-from __future__ import annotations
-
 import struct
 
 from io import BytesIO
@@ -27,7 +25,7 @@ _CT = TypeVar("_CT")
 def raise_conversion_error(function: Callable[..., _CT]) -> Callable[..., _CT]:
     """Wrap any raised `struct.errors` in a ConversionError."""
     @wraps(function)
-    def result(self: Packer | Unpacker, *args: Any, **kwargs: Any):
+    def result(self: "Packer | Unpacker", *args: Any, **kwargs: Any):
         try:
             return function(self, *args, **kwargs)
         except (EOFError, TypeError, ValueError, struct.error) as e:
@@ -228,10 +226,12 @@ class Unpacker:
 
     def unpack_list(self, unpack_item) -> list:
         item_list = []
-        while (x := self.unpack_uint()) != 0:
+        x = self.unpack_uint()
+        while x != 0:
             if x != 1:
                 raise ConversionError(f"0 or 1 expected, got {x!r}")
             item_list.append(unpack_item())
+            x = self.unpack_uint()
         return item_list
 
     def unpack_farray(self, n: int, unpack_item) -> list:

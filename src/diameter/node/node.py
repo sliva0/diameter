@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import dataclasses
 import errno
 import json
@@ -42,10 +40,10 @@ _AnyMessageType = TypeVar("_AnyMessageType", bound=Message)
 _AnyAnswerType = TypeVar("_AnyAnswerType", bound=Message)
 
 
-def select_least_used_peer(node: Node,
-                           app: Application,
+def select_least_used_peer(node: "Node",
+                           app: "Application",
                            message: Message,
-                           peers: list[Peer]) -> Peer:
+                           peers: "list[Peer]") -> Peer:
     """Default peer load balancing implementation.
 
     A naive load balancing method that looks into the `counters` attribute of
@@ -74,18 +72,18 @@ class NodeStats:
     statistical value is identical to those of
     [PeerStats][diameter.node.peer.PeerStats].
     """
-    avg_response_time: dict[str, float]
+    avg_response_time: "dict[str, float]"
     """Average response time, split by message type."""
     avg_response_time_overall: float
     """Overall average response time."""
-    processed_req_per_second: dict[str, float]
+    processed_req_per_second: "dict[str, float]"
     """Rate of requests processed per second, split by message type."""
     processed_req_per_second_overall: float
     """Rate of requests processed per second."""
-    received_req_counters: list[int]
+    received_req_counters: "list[int]"
     """Exact amount of requests received in the last minute, last five minutes
     and the last 15 minutes."""
-    sent_result_code_range_counters: dict[str, list[int]]
+    sent_result_code_range_counters: "dict[str, list[int]]"
     """Exact amount of answers sent in the last minute, last five minutes and 
     the last 15 minutes, once for each diameter result code range. The result
     code range is expressed as a string in form of "1xxx", "2xxx" etc."""
@@ -194,9 +192,9 @@ class Node:
 
     """
     def __init__(self, origin_host: str, realm_name: str,
-                 ip_addresses: list[str] = None,
+                 ip_addresses: "list[str]" = None,
                  tcp_port: int = None, sctp_port: int = None,
-                 vendor_ids: list[int] = None):
+                 vendor_ids: "list[int]" = None):
         """Create a new diameter node.
 
         Args:
@@ -216,7 +214,7 @@ class Node:
 
         """
         self._busy_lock = threading.Lock()
-        self._half_ready_connections: dict[str, PeerConnection] = {}
+        self._half_ready_connections: "dict[str, PeerConnection]" = {}
         self._started = False
         self._stopping = False
         # This represents roughly the routing table described in rfc6733 2.7;
@@ -228,7 +226,7 @@ class Node:
         self._peer_routes: dict[str, dict[Application | str, list[Peer]]] = {
             realm_name: {"_default": []}
         }
-        self._app_waiting_answer: dict[str, Application] = {}
+        self._app_waiting_answer: "dict[str, Application]" = {}
         # An internal list of hop-by-hop IDs and peers waiting for a matching
         # answer message. The dictionary contains host identities as keys, with
         # dictionaries of hop-by-hop ids and request sent timestamps as values.
@@ -243,11 +241,11 @@ class Node:
         # origin-host, for retransmission check.
         self._sent_answers: dict[str, deque[int]] = {}
 
-        self.vendor_ids: set[int] = set(
+        self.vendor_ids: "set[int]" = set(
             vendor_ids or [i for i in constants.VENDORS.keys() if i > 0])
 
         self.origin_host: str = origin_host
-        self.ip_addresses: list[str] = ip_addresses or []
+        self.ip_addresses: "list[str]" = ip_addresses or []
         self.tcp_port: int | None = tcp_port
         self.sctp_port: int | None = sctp_port
         self.realm_name: str = realm_name
@@ -328,16 +326,16 @@ class Node:
         self.stats_logger: StatsLogAdapter = StatsLogAdapter(
             logging.getLogger("diameter.stats"), extra={"node": self})
 
-        self.peers: dict[str, Peer] = {}
+        self.peers: "dict[str, Peer]" = {}
         """All currently known peers as a dictionary of host identities as 
         keys and instances of `Peer` as values.."""
-        self.connections: dict[str, PeerConnection] = {}
+        self.connections: "dict[str, PeerConnection]" = {}
         """Currently handled peer connections."""
         self.peer_sockets: dict[str, socket.socket | sctp.sctpsocket] = {}
         """Currently held sockets, one for each peer connection."""
-        self.socket_peers: dict[int, PeerConnection] = {}
+        self.socket_peers: "dict[int, PeerConnection]" = {}
         """Peer connection lookup based on socket fileno."""
-        self.applications: list[Application] = []
+        self.applications: "list[Application]" = []
         """List of configured applications."""
 
         self.peer_route_select_func: Callable[[Node, Application, Message, list[Peer]], Peer] = select_least_used_peer
@@ -354,18 +352,18 @@ class Node:
             target=self._collect_stats)
 
     @property
-    def auth_application_ids(self) -> set[int]:
+    def auth_application_ids(self) -> "set[int]":
         return set(a.application_id for a in self.applications
                    if a.is_auth_application)
 
     @property
-    def acct_application_ids(self) -> set[int]:
+    def acct_application_ids(self) -> "set[int]":
         return set(a.application_id for a in self.applications
                    if a.is_acct_application)
 
     def _add_peer_connection(self, conn: PeerConnection,
-                             peer_socket: socket.socket | sctp.sctpsocket,
-                             proto: int) -> str | None:
+                             peer_socket: "socket.socket | sctp.sctpsocket",
+                             proto: int) -> "str | None":
         """Record new connection.
 
         Args:
@@ -578,7 +576,7 @@ class Node:
         else:
             conn.demand_attention()
 
-    def _find_connection_peer(self, conn: PeerConnection) -> Peer | None:
+    def _find_connection_peer(self, conn: PeerConnection) -> "Peer | None":
         if conn.node_name in self.peers:
             return self.peers[conn.node_name]
         elif conn.host_identity in self.peers:
@@ -868,29 +866,32 @@ class Node:
             return
 
         try:
-            match (msg.header.is_request, msg.header.command_code):
-                case (True, constants.CMD_CAPABILITIES_EXCHANGE):
+            if msg.header.command_code == constants.CMD_CAPABILITIES_EXCHANGE:
+                if msg.header.is_request:
                     self._update_peer_counters(conn, cer=1)
                     self.receive_cer(conn, msg)
-                case (False, constants.CMD_CAPABILITIES_EXCHANGE):
+                else:
                     self._update_peer_counters(conn, cea=1)
                     self.receive_cea(conn, msg)
-                case (True, constants.CMD_DEVICE_WATCHDOG):
+            elif msg.header.command_code == constants.CMD_DEVICE_WATCHDOG:
+                if msg.header.is_request:
                     self._update_peer_counters(conn, dwr=1)
                     self.receive_dwr(conn, msg)
-                case (False, constants.CMD_DEVICE_WATCHDOG):
+                else:
                     self._update_peer_counters(conn, dwa=1)
                     self.receive_dwa(conn, msg)
-                case (True, constants.CMD_DISCONNECT_PEER):
+            elif msg.header.command_code == constants.CMD_DISCONNECT_PEER:
+                if msg.header.is_request:
                     self._update_peer_counters(conn, dpr=1)
                     self.receive_dpr(conn, msg)
-                case (False, constants.CMD_DISCONNECT_PEER):
+                else:
                     self._update_peer_counters(conn, dpa=1)
                     self.receive_dpa(conn, msg)
-                case (True, _):
+            else:
+                if msg.header.is_request:
                     self._update_peer_counters(conn, app_request=1)
                     self._receive_app_request(conn, msg)
-                case (False, _):
+                else:
                     self._update_peer_counters(conn, app_answer=1)
                     self._receive_app_answer(conn, msg)
 
@@ -1126,8 +1127,8 @@ class Node:
             sent_result_code_range_counters=sent_res_code_counters
         )
 
-    def add_application(self, app: Application, peers: list[Peer],
-                        realms: list[str] = None):
+    def add_application(self, app: "Application", peers: "list[Peer]",
+                        realms: "list[str]" = None):
         """Register an application with diameter node.
 
         The added application will receive diameter requests that the node
@@ -1164,7 +1165,7 @@ class Node:
         app.start()
 
     def add_peer(self, peer_uri: str, realm_name: str = None,
-                 ip_addresses: list[str] = None,
+                 ip_addresses: "list[str]" = None,
                  is_persistent: bool = False,
                  is_default: bool = False) -> Peer:
         """Add a known peer.
@@ -1510,7 +1511,7 @@ class Node:
         conn.state = PEER_DISCONNECTING
         self.send_message(conn, msg)
 
-    def route_answer(self, message: Message) -> tuple[PeerConnection, Message]:
+    def route_answer(self, message: Message) -> "tuple[PeerConnection, Message]":
         """Determine which peer should be used for sending an answer message.
 
         Should always be used by an application before sending an answer.
@@ -1566,7 +1567,7 @@ class Node:
 
         return conn, message
 
-    def route_request(self, app: Application, message: Message) -> tuple[PeerConnection, Message]:
+    def route_request(self, app: "Application", message: Message) -> "tuple[PeerConnection, Message]":
         """Determine which peer should be used for sending a request message.
 
         Should always be used by an application before sending a request.

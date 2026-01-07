@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import dataclasses
 import logging
 import math
@@ -78,7 +76,7 @@ watchdog request within the configured timeout."""
 DISCONNECT_REASON_UNKNOWN = 0x40
 """Peer has been disconnected for unknown reasons."""
 
-PEER_READY_STATES: tuple[int, ...] = (PEER_READY, PEER_READY_WAITING_DWA)
+PEER_READY_STATES: "tuple[int, ...]" = (PEER_READY, PEER_READY_WAITING_DWA)
 _AnyMessageType = TypeVar("_AnyMessageType", bound=Message)
 _AnyAnswerType = TypeVar("_AnyAnswerType", bound=Message)
 
@@ -164,7 +162,7 @@ class PeerStats:
         self.sent_result_code_range_counters[code_range].add_count(1)
 
     @property
-    def processed_req_per_second(self) -> dict[str, float]:
+    def processed_req_per_second(self) -> "dict[str, float]":
         """Rate of requests processed per second, split by message type.
 
         Returns:
@@ -190,7 +188,7 @@ class PeerStats:
         return len(self.processed_req_time_total) / math.ceil(sum(self.processed_req_time_total))
 
     @property
-    def avg_response_time(self) -> dict[str, float]:
+    def avg_response_time(self) -> "dict[str, float]":
         """Average response time, split by message type.
 
         Returns:
@@ -236,7 +234,7 @@ class Peer:
     port: int
     """Port number is always set, even if the peer has not been configured 
     for outgoing connections. It defaults to 3868."""
-    ip_addresses: list[str] = dataclasses.field(default_factory=list)
+    ip_addresses: "list[str]" = dataclasses.field(default_factory=list)
     """A list of IP addresses configured for the peer."""
     persistent: bool = False
     """Indicates that the connection to the peer is automatically established,
@@ -266,7 +264,7 @@ class Peer:
     peer has not yet (ever) been disconnected, a connection attempt is made
     immediately.
     """
-    disconnect_reason: int | None = None
+    disconnect_reason: "int | None" = None
     """Reason for the peer having been disconnected. One of the 
     `PEER_DISCONNECT_REASON_*` constants, or `None` if the peer has not yet 
     been disconnected. The value is reset back to `None` after a peer has 
@@ -279,7 +277,7 @@ class Peer:
     """Peer message counters."""
     statistics: PeerStats = dataclasses.field(default_factory=PeerStats)
     """Peer connection statistics."""
-    connection: PeerConnection = None
+    connection: "PeerConnection" = None
     """The actual, current connection to the peer. If the peer is not 
     connected, the value will be `None`. Note that even if the peer may be 
     connected, the actual connection readiness is determined by the 
@@ -305,7 +303,7 @@ class PeerConnection:
     [`Peer.connection`][diameter.node.peer.Peer.connection] attribute.
     Connections are created and closed by the parent governing diameter node.
     """
-    def __init__(self, peer_ip: list[str] | str, peer_port: int,
+    def __init__(self, peer_ip: "list[str] | str", peer_port: int,
                  peer_direction: int, interrupt_fileno: int):
         """Create a new connection.
 
@@ -342,11 +340,11 @@ class PeerConnection:
             logging.getLogger("diameter.peer.msg"), extra={"peer": self})
         self.write_lock: threading.Lock = threading.Lock()
 
-        self.auth_application_ids: list[int] = []
+        self.auth_application_ids: "list[int]" = []
         """List of supported authentication application IDs for this peer. The 
         list is populated when CER/CEA has been completed and will be used by 
         the node to route messages to their proper applications."""
-        self.acct_application_ids: list[int] = []
+        self.acct_application_ids: "list[int]" = []
         """List of supported accounting application IDs for this peer. The 
         list is populated when CER/CEA has been completed and will be used by 
         the node to route messages to their proper applications."""
@@ -356,12 +354,12 @@ class PeerConnection:
         ID."""
         self.host_identity: str = ""
         """Resolved peer host ID. Will be set after CER/CEA has taken place."""
-        self.host_ip_address: list[str] = []
+        self.host_ip_address: "list[str]" = []
         """Node's host IP addresses, resolved at the time of peer creation."""
         self.ident: str = "00" * 6  # needs to be 8 bytes always
         """A unique (for the lifetime of the parent node) connection 
         identifier, a 6-byte long hexadecimal string."""
-        self.ip: list[str] | str = peer_ip
+        self.ip: "list[str]" | str = peer_ip
         """The actual peer IP address(es) that the connection socket is 
         connected with."""
         self.message_handler: Callable[[PeerConnection, _AnyMessageType], None] = lambda p, m: None

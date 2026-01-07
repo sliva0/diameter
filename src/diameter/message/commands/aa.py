@@ -4,8 +4,6 @@ Diameter NAS Application
 This module contains AA Request and Answer messages, implementing AVPs
 documented in rfc7155.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -77,7 +75,7 @@ class Aa(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return AaRequest
         return AaAnswer
@@ -99,12 +97,12 @@ class AaAnswer(Aa):
     user_name: str
     service_type: int
     # this should be "class", but that's a reserved keyword
-    state_class: list[bytes]
-    configuration_token: list[bytes]
+    state_class: "list[bytes]"
+    configuration_token: "list[bytes]"
     acct_interim_interval: int
     error_message: str
     error_reporting_host: bytes
-    failed_avp: list[FailedAvp]
+    failed_avp: "list[FailedAvp]"
     idle_timeout: int
     authorization_lifetime: int
     auth_grace_period: int
@@ -112,51 +110,51 @@ class AaAnswer(Aa):
     multi_round_time_out: int
     session_timeout: int
     state: bytes
-    reply_message: list[str]
+    reply_message: "list[str]"
     origin_aaa_protocol: int
     origin_state_id: int
-    filter_id: list[str]
+    filter_id: "list[str]"
     password_retry: int
     port_limit: int
     prompt: int
     arap_challenge_response: bytes
     arap_features: bytes
     arap_security: int
-    arap_security_data: list[bytes]
+    arap_security_data: "list[bytes]"
     arap_zone_access: int
     callback_id: str
     callback_number: str
     framed_appletalk_link: int
-    framed_appletalk_network: list[int]
+    framed_appletalk_network: "list[int]"
     framed_appletalk_zone: bytes
-    framed_compression: list[int]
+    framed_compression: "list[int]"
     framed_interface_id: int
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     framed_ipv6_pool: bytes
-    framed_ipv6_route: list[str]
+    framed_ipv6_route: "list[str]"
     framed_ip_netmask: bytes
-    framed_route: list[str]
+    framed_route: "list[str]"
     framed_pool: bytes
     framed_ipx_network: int
     framed_mtu: int
     framed_protocol: int
     framed_routing: int
-    login_ip_host: list[str]
-    login_ipv6_host: list[bytes]
+    login_ip_host: "list[str]"
+    login_ipv6_host: "list[bytes]"
     login_lat_group: bytes
     login_lat_node: bytes
     login_lat_port: str
     login_lat_service: bytes
     login_service: int
     login_tcp_port: int
-    nas_filter_rule: list[bytes]
-    qos_filter_rule: list[bytes]
-    tunneling: list[Tunneling]
-    redirect_host: list[str]
+    nas_filter_rule: "list[bytes]"
+    qos_filter_rule: "list[bytes]"
+    tunneling: "list[Tunneling]"
+    redirect_host: "list[str]"
     redirect_host_usage: int
     redirect_max_cache_time: int
-    proxy_info: list[ProxyInfo]
+    proxy_info: "list[ProxyInfo]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -286,30 +284,30 @@ class AaRequest(Aa):
     connect_info: str
     chap_auth: ChapAuth
     chap_challenge: bytes
-    framed_compression: list[int]
+    framed_compression: "list[int]"
     framed_interface_id: int
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     framed_ip_netmask: bytes
     framed_mtu: int
     framed_protocol: int
     arap_password: bytes
     arap_security: int
-    arap_security_data: list[bytes]
-    login_ip_host: list[str]
-    login_ipv6_host: list[bytes]
+    arap_security_data: "list[bytes]"
+    login_ip_host: "list[str]"
+    login_ipv6_host: "list[bytes]"
     login_lat_group: bytes
     login_lat_node: bytes
     login_lat_port: str
     login_lat_service: bytes
-    tunneling: list[Tunneling]
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    tunneling: "list[Tunneling]"
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
     af_charging_identifier: str
     media_component_description: MediaComponentDescription
     supported_features: SupportedFeatures
-    specific_action: list[int]
-    subscription_id: list[SubscriptionId]
+    specific_action: "list[int]"
+    subscription_id: "list[SubscriptionId]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

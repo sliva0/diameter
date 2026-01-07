@@ -8,7 +8,7 @@ from ._base import Message, MessageHeader, DefinedMessage, UndefinedMessage
 from .avp import Avp, AvpGrouped
 
 
-def _dump_avps(avp_list: list[Avp], indent: str = "") -> str:
+def _dump_avps(avp_list: "list[Avp]", indent: str = "") -> str:
     s = ""
     indent = indent + " " * 2
     for single_avp in avp_list:

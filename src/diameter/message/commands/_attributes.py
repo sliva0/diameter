@@ -2,8 +2,6 @@
 Helper classes and data holders to generate and maintain class attributes for
 Diameter Application Message subclasses.
 """
-from __future__ import annotations
-
 import logging
 
 from ..avp import Avp, AvpDecodeError
@@ -12,7 +10,7 @@ from ..avp.generator import AvpGenDef, AvpGenerator
 logger = logging.getLogger("diameter.message.avp")
 
 
-def assign_attr_from_defs(obj: AvpGenerator, avp_list: list[Avp]):
+def assign_attr_from_defs(obj: AvpGenerator, avp_list: "list[Avp]"):
     """Go through a tree of AVP attribute definitions and populate attributes.
 
     Traverses recursively through an `avp_def` attribute in an object instance

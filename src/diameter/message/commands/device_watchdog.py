@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Device Watchdog Request and Answer messages, implementing
 AVPs documented in rfc6733.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class DeviceWatchdog(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return DeviceWatchdogRequest
         return DeviceWatchdogAnswer

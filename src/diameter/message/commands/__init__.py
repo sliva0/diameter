@@ -2350,7 +2350,7 @@ class MTData(UndefinedMessage):
         self.header.command_code = self.code
 
 
-all_commands: dict[int, Type[Message]] = {
+all_commands: "dict[int, Type[Message]]" = {
     m.code: m for m in Message.__subclasses__()}
 all_commands.update({
     m.code: m for m in DefinedMessage.__subclasses__()

@@ -4,8 +4,6 @@ Diameter Cx/Dx Interface.
 This module contains Location Info Request and Answer messages,
 implementing AVPs documented in 3GPP TS 29.229.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class LocationInfo(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return LocationInfoRequest
         return LocationInfoAnswer
@@ -97,14 +95,14 @@ class LocationInfoAnswer(LocationInfo):
     origin_realm: bytes
     oc_supported_features: OcSupportedFeatures
     oc_olr: OcOlr
-    supported_features: list[SupportedFeatures]
+    supported_features: "list[SupportedFeatures]"
     server_name: str
     server_capabilities: ServerCapabilities
     wildcarded_public_identity: str
     lia_flags: int
-    failed_avp: list[FailedAvp]
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    failed_avp: "list[FailedAvp]"
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -153,13 +151,13 @@ class LocationInfoRequest(LocationInfo):
     destination_realm: bytes
     user_name: str
     oc_supported_features: OcSupportedFeatures
-    supported_features: list[SupportedFeatures]
+    supported_features: "list[SupportedFeatures]"
     public_identity: str
     sip_auth_data_item: SipAuthDataItem
     sip_number_auth_items: int
     server_name: str
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

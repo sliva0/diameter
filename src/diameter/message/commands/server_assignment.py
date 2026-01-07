@@ -4,8 +4,6 @@ Diameter Cx/Dx Interface.
 This module contains Server Assignment Request and Answer messages,
 implementing AVPs documented in 3GPP TS 29.229.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class ServerAssignment(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return ServerAssignmentRequest
         return ServerAssignmentAnswer
@@ -97,20 +95,20 @@ class ServerAssignmentAnswer(ServerAssignment):
     origin_realm: bytes
     oc_supported_features: OcSupportedFeatures
     oc_olr: OcOlr
-    supported_features: list[SupportedFeatures]
+    supported_features: "list[SupportedFeatures]"
     user_data: bytes
     charging_information: ChargingInformation
     associated_identities: AssociatedIdentities
     loose_route_indication: int
-    scscf_restoration_info: list[ScscfRestorationInfo]
+    scscf_restoration_info: "list[ScscfRestorationInfo]"
     associated_registered_identities: AssociatedRegisteredIdentities
     server_name: str
     wildcarded_public_identity: str
     privileged_sender_indication: int
     allowed_waf_wwsf_identities: AllowedWafWwsfIdentities
-    failed_avp: list[FailedAvp]
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    failed_avp: "list[FailedAvp]"
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -166,8 +164,8 @@ class ServerAssignmentRequest(ServerAssignment):
     destination_realm: bytes
     user_name: str
     oc_supported_features: OcSupportedFeatures
-    supported_features: list[SupportedFeatures]
-    public_identity: list[str]
+    supported_features: "list[SupportedFeatures]"
+    public_identity: "list[str]"
     wildcarded_public_identity: str
     server_name: str
     server_assignment_type: int
@@ -176,8 +174,8 @@ class ServerAssignmentRequest(ServerAssignment):
     multiple_registration_indication: int
     session_priority: int
     sar_flags: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

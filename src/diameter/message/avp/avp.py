@@ -1,8 +1,6 @@
 """
 AVP and AVP type definitions.
 """
-from __future__ import annotations
-
 import datetime
 import socket
 import struct
@@ -100,7 +98,7 @@ class Avp:
                 f"0x{self.flags:02x} ({''.join(self._flags())}), "
                 f"Length: {self.length}{vnd_val}{fmt_val}>")
 
-    def _flags(self) -> list[str]:
+    def _flags(self) -> "list[str]":
         checked = {"V": self.is_vendor, "M": self.is_mandatory,
                    "P": self.is_private}
         return [f if v else "-" for f, v in checked.items()]
@@ -130,7 +128,7 @@ class Avp:
         return packer
 
     @classmethod
-    def from_avp(cls, another_avp: _AnyAvpType) -> _AnyAvpType:
+    def from_avp(cls, another_avp: "_AnyAvpType") -> "_AnyAvpType":
         """Create a copy based on another AVP.
 
         Encodes the given AVP into bytes, then constructs a new AVP instance
@@ -146,7 +144,7 @@ class Avp:
         return Avp.from_bytes(another_avp.as_bytes())
 
     @classmethod
-    def from_bytes(cls, avp_data: bytes) -> _AnyAvpType:
+    def from_bytes(cls, avp_data: bytes) -> "_AnyAvpType":
         """Create new AVP from network received bytes.
 
         Accepts byte strings and returns a python representation of the contents.
@@ -175,7 +173,7 @@ class Avp:
                 f"Not possible to create AVP from byte input: {e}") from None
 
     @classmethod
-    def from_unpacker(cls, unpacker: Unpacker) -> _AnyAvpType:
+    def from_unpacker(cls, unpacker: Unpacker) -> "_AnyAvpType":
         """Create a new AVP from an Unpacker instance.
 
         Args:
@@ -222,8 +220,8 @@ class Avp:
 
     @classmethod
     def new(cls, avp_code: int, vendor_id: int = 0,
-            value: str | int | float | bytes | list | datetime.datetime = None,
-            is_mandatory: bool = None, is_private: bool = None) -> _AnyAvpType:
+            value:" str | int | float | bytes | list | datetime.datetime" = None,
+            is_mandatory: bool = None, is_private: bool = None) -> "_AnyAvpType":
         """Generates a new AVP.
 
         The preferred way to build a new AVP. Returns an AVP that has a type
@@ -365,7 +363,7 @@ class AvpAddress(Avp):
     defined by IANAADFAM.
     """
     @property
-    def value(self) -> tuple[int, str]:
+    def value(self) -> "tuple[int, str]":
         """The address family and its value. When reading, always returns a
         tuple containing the address family and a string representation of
         the actual address. Currently implemented address families are:
@@ -489,7 +487,7 @@ class AvpGrouped(Avp):
     instances.
     """
     @property
-    def value(self) -> list[_AnyAvpType]:
+    def value(self) -> "list[_AnyAvpType]":
         """Set or read the list of grouped AVPs. The actual AVPs contained
         within are not decoded until the value is read for the first time.
         Once read, the value is cached internally and will not change, unless
@@ -523,7 +521,7 @@ class AvpGrouped(Avp):
         return getattr(self, "_avps")
 
     @value.setter
-    def value(self, new_value: list[_AnyAvpType]):
+    def value(self, new_value: "list[_AnyAvpType]"):
         self._avps = new_value
 
         packer = Packer()
@@ -769,7 +767,7 @@ _AnyAvpType = TypeVar("_AnyAvpType", bound=Avp)
 from .dictionary import AVP_DICTIONARY, AVP_VENDOR_DICTIONARY
 
 
-def register(avp: int, name: str, type_cls: type[_AnyAvpType],
+def register(avp: int, name: str, type_cls: "type[_AnyAvpType]",
              vendor: int = None, mandatory: bool = None):
     """Register a custom AVP definition.
 

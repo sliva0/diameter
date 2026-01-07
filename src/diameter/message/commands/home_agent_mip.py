@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Home Agent MIP Request and Answer messages, implementing
 AVPs documented in `rfc4004`.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class HomeAgentMip(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return HomeAgentMipRequest
         return HomeAgentMipAnswer
@@ -102,7 +100,7 @@ class HomeAgentMipAnswer(HomeAgentMip):
     mip_fa_to_ha_spi: int
     mip_fa_to_mn_spi: int
     origin_state_id: int
-    proxy_info: list[ProxyInfo]
+    proxy_info: "list[ProxyInfo]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -156,10 +154,10 @@ class HomeAgentMipRequest(HomeAgentMip):
     mip_originating_foreign_aaa: MipOriginatingForeignAaa
     mip_mobile_node_address: str
     mip_home_agent_address: str
-    mip_filter_rule: list[bytes]
+    mip_filter_rule: "list[bytes]"
     origin_state_id: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

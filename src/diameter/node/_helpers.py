@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import logging
 import random
 import threading
@@ -62,7 +60,7 @@ def parse_diameter_uri(uri: str) -> DiameterUri:
     return DiameterUri(scheme, fqdn, port, params, scheme == "aaas")
 
 
-def validate_message_avps(msg: _AnyMessageType) -> list[Avp]:
+def validate_message_avps(msg: _AnyMessageType) -> "list[Avp]":
     """Validate that a message has all the mandatory AVPs set.
 
     The validation works only for the commands that have a python
@@ -151,7 +149,7 @@ class SecondSlotCounter:
             count += slot_count
         return count
 
-    def get_counts(self, *since_seconds: int) -> list[int]:
+    def get_counts(self, *since_seconds: int) -> "list[int]":
         """Get current counter values.
 
         Retrieves multiple coutner values in one go.

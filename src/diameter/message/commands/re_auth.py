@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Re-Auth Request and Answer messages, implementing
 AVPs documented in rfc6733.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -77,7 +75,7 @@ class ReAuth(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return ReAuthRequest
         return ReAuthAnswer
@@ -95,24 +93,24 @@ class ReAuthAnswer(ReAuth):
     error_message: str
     error_reporting_host: bytes
     failed_avp: FailedAvp
-    redirect_host: list[str]
+    redirect_host: "list[str]"
     redirect_host_usage: int
     redirect_max_cache_time: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # Extension AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int
     service_type: int
-    configuration_token: list[bytes]
+    configuration_token: "list[bytes]"
     idle_timeout: int
     authorization_lifetime: int
     auth_grace_period: int
     re_auth_request_type: int
     state: bytes
     # this should be "class", but that's a reserved keyword
-    state_class: list[bytes]
-    reply_message: list[str]
+    state_class: "list[bytes]"
+    reply_message: "list[str]"
     prompt: int
 
     avp_def: AvpGenType = (
@@ -172,8 +170,8 @@ class ReAuthRequest(ReAuth):
     re_auth_request_type: int
     user_name: str
     origin_state_id: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # Extension AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int
@@ -185,7 +183,7 @@ class ReAuthRequest(ReAuth):
     nas_port_type: int
     service_type: int
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     framed_interface_id: int
     called_station_id: str
     calling_station_id: str
@@ -193,15 +191,15 @@ class ReAuthRequest(ReAuth):
     acct_session_id: bytes
     acct_multi_session_id: str
     state: bytes
-    state_class: list[bytes]
-    reply_message: list[str]
+    state_class: "list[bytes]"
+    reply_message: "list[str]"
 
     # 3GPP extensions: ETSI 132.299
     g_s_u_pool_identifier: int
     service_identifier: int
     rating_group: int
-    charging_rule_install: list[ChargingRuleInstall]
-    charging_rule_remove: list[ChargingRuleRemove]
+    charging_rule_install: "list[ChargingRuleInstall]"
+    charging_rule_remove: "list[ChargingRuleRemove]"
 
 
     avp_def: AvpGenType = (

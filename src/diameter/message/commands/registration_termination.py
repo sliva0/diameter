@@ -4,8 +4,6 @@ Diameter Cx/Dx Interface.
 This module contains Registration Termination Request and Answer messages,
 implementing AVPs documented in 3GPP TS 29.229.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class RegistrationTermination(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return RegistrationTerminationRequest
         return RegistrationTerminationAnswer
@@ -96,11 +94,11 @@ class RegistrationTerminationAnswer(RegistrationTermination):
     origin_host: bytes
     origin_realm: bytes
     associated_identities: AssociatedIdentities
-    supported_features: list[SupportedFeatures]
-    identity_with_emergency_registration: list[IdentityWithEmergencyRegistration]
-    failed_avp: list[FailedAvp]
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    supported_features: "list[SupportedFeatures]"
+    identity_with_emergency_registration: "list[IdentityWithEmergencyRegistration]"
+    failed_avp: "list[FailedAvp]"
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -146,11 +144,11 @@ class RegistrationTerminationRequest(RegistrationTermination):
     destination_realm: bytes
     user_name: str
     associated_identities: AssociatedIdentities
-    supported_features: list[SupportedFeatures]
-    public_identity: list[str]
+    supported_features: "list[SupportedFeatures]"
+    public_identity: "list[str]"
     deregistration_reason: DeregistrationReason
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

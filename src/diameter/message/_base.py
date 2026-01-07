@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from typing import TypeVar, Type, Any
 
 from .avp import Avp, AvpGrouped
@@ -22,7 +20,7 @@ class Message:
     name: str = "Unknown"
     """A human-readable diameter command code name, e.g. "Accounting-Request"."""
 
-    def __init__(self, header: MessageHeader = None, avps: list[Avp] = None):
+    def __init__(self, header: "MessageHeader" = None, avps: "list[Avp]" = None):
         """Create a new base message."""
         self.header: MessageHeader = header or MessageHeader()
         """A message header. Always exists, defaults to an empty header for 
@@ -33,7 +31,7 @@ class Message:
             created messages and will not be set until the message is rendered
             using the [as_bytes][diameter.message.Message.as_bytes] method.
         """
-        self._avps: list[Avp] = avps or []
+        self._avps: "list[Avp]" = avps or []
         self.__find_cache = {}
         self.__post_init__()
 
@@ -63,8 +61,8 @@ class Message:
 
         return self.header.as_bytes() + avp_bytes
 
-    def find_avps(self, *code_and_vendor: tuple[int, int],
-                  alt_list: list[Avp] = None) -> list[Avp]:
+    def find_avps(self, *code_and_vendor: "tuple[int, int]",
+                  alt_list: "list[Avp]" = None) -> "list[Avp]":
         """Find specific AVPs in the message internal AVP tree.
 
         If more than one `code_and_vendor` pair is given, the list is assumed
@@ -126,7 +124,7 @@ class Message:
         return result
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: "MessageHeader") -> "Type[_AnyMessageType] | None":
         """Generate a type that should be used to create new instances.
 
         This method is called internally by
@@ -139,7 +137,7 @@ class Message:
         """
         return None
 
-    def to_answer(self) -> _AnyMessageType:
+    def to_answer(self) -> "_AnyMessageType":
         """Produce answer from a request.
 
         Copies the request message header to a new answer message, clearing all
@@ -185,7 +183,7 @@ class Message:
             return Message(hdr)
 
     @classmethod
-    def from_bytes(cls, msg_data: bytes, plain_msg: bool = False) -> _AnyMessageType:
+    def from_bytes(cls, msg_data: bytes, plain_msg: bool = False) -> "_AnyMessageType":
         """Generate a new Message from network received bytes.
 
         Accepts a byte string containing received network data and constructs a
@@ -244,11 +242,11 @@ class Message:
         return msg
 
     @property
-    def avps(self) -> list[Avp]:
+    def avps(self) ->" list[Avp]":
         return self._avps
 
     @avps.setter
-    def avps(self, new_avps: list[Avp]):
+    def avps(self, new_avps: "list[Avp]"):
         self._avps = new_avps
 
     def append_avp(self, avp: Avp):
@@ -281,7 +279,7 @@ class MessageHeader:
                 f"Hop-by-Hop Identifier: 0x{self.hop_by_hop_identifier:x}, "
                 f"End-to-End Identifier: 0x{self.end_to_end_identifier:x}>")
 
-    def _flags(self) -> list[str]:
+    def _flags(self) -> "list[str]":
         checked = ["request", "proxyable", "error", "retransmit"]
         return [f for f in checked if getattr(self, f"is_{f}")]
 
@@ -297,7 +295,7 @@ class MessageHeader:
         return packer
 
     @classmethod
-    def from_bytes(cls, header_data: bytes) -> MessageHeader:
+    def from_bytes(cls, header_data: bytes) -> "MessageHeader":
         unpacker = Unpacker(header_data)
 
         version_msglen = unpacker.unpack_uint()
@@ -383,10 +381,10 @@ class DefinedMessage(Message):
             f"{self.__class__.__name__} has no attribute {name}")
 
     def __post_init__(self):
-        self._additional_avps: list[Avp] = []
+        self._additional_avps: "list[Avp]" = []
 
     @property
-    def avps(self) -> list[Avp]:
+    def avps(self) -> "list[Avp]":
         """Full list of all AVPs within the message.
 
         If the message was generated from network-received bytes, the list of
@@ -400,7 +398,7 @@ class DefinedMessage(Message):
         return defined_avps + self._additional_avps
 
     @avps.setter
-    def avps(self, new_avps: list[Avp]):
+    def avps(self, new_avps: "list[Avp]"):
         """Overwrites the list of custom AVPs."""
         self._additional_avps = new_avps
 
@@ -441,8 +439,8 @@ class UndefinedMessage(Message):
     def __post_init__(self):
         self._assign_attr_values(self, self.avps)
 
-    def _assign_attr_values(self, parent: UndefinedMessage | UndefinedGroupedAvp,
-                            avps: list[Avp]):
+    def _assign_attr_values(self, parent: "UndefinedMessage | UndefinedGroupedAvp",
+                            avps: "list[Avp]"):
         for avp in avps:
             attr_name = self._produce_attr_name(avp)
             if not isinstance(avp, AvpGrouped):
@@ -460,7 +458,7 @@ class UndefinedMessage(Message):
             else:
                 setattr(parent, attr_name, value)
 
-    def _produce_attr_name(self, avp: Avp) -> str:
+    def _produce_attr_name(self, avp: Avp) -> str :
         attr_name = avp.name.replace("-", "_").lower()
         return attr_name
 
@@ -468,8 +466,8 @@ class UndefinedMessage(Message):
 _AnyMessageType = TypeVar("_AnyMessageType", bound=Message)
 
 
-def _traverse_avp_tree(avps: list[Avp],
-                       code_and_vendor_path: list[tuple[int, int]]) -> list[Avp]:
+def _traverse_avp_tree(avps: "list[Avp]",
+                       code_and_vendor_path: "list[tuple[int, int]]") -> "list[Avp]":
     """Recursively travel AVP tree until a matching code and vendor is found.
 
     Returns the AVP or AVPs at the end(s) of the travelled chain(s).

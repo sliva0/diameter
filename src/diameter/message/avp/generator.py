@@ -2,11 +2,9 @@
 Definitions for classes and methods that are used to convert AVPs to python
 class attributes and from class attributes back to AVPs.
 """
-from __future__ import annotations
-
 import logging
 
-from typing import NamedTuple, Protocol
+from typing import NamedTuple
 
 from .avp import Avp
 from .errors import AvpEncodeError
@@ -25,18 +23,18 @@ class AvpGenDef(NamedTuple):
     is_required: bool = False
     """Indicates that the class attribute must be set. A ValueError is raised 
     if the attribute is missing."""
-    is_mandatory: bool | None = None
+    is_mandatory: "bool | None" = None
     """Overwrite the default mandatory flag provided by AVP dictionary."""
-    type_class: type | None = None
+    type_class: "type | None" = None
     """For grouped AVPs, indicates the type of another class that holds the 
     attributes needed for the grouped sub-AVPs."""
 
 
 # class attribute, required, avp code, vendor id, mandatory flag, typedef, is list
-AvpGenType = tuple[AvpGenDef, ...]
+AvpGenType = "tuple[AvpGenDef, ...]"
 
 
-def generate_avps_from_defs(obj: AvpGenerator, strict: bool = False) -> list[Avp]:
+def generate_avps_from_defs(obj: "AvpGenerator", strict: bool = False) -> "list[Avp]":
     """Go through a tree of AVP attribute definitions and produce AVPs.
 
     Traverses recursively through an `avp_def` attribute in an object instance
@@ -105,7 +103,7 @@ def generate_avps_from_defs(obj: AvpGenerator, strict: bool = False) -> list[Avp
     return avp_list
 
 
-class AvpGenerator(Protocol):
+class AvpGenerator():
     """A generic type structure that describes a single AVP generator.
 
     AVP generators are just dataclasses that hold attribute names, each

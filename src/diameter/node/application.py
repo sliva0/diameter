@@ -9,8 +9,6 @@ In most cases, the most suitable option to use is
 [`SimpleThreadingApplication`][diameter.node.application.SimpleThreadingApplication],
 which will cover the most scenarios without requiring any unnecessary setup.
 """
-from __future__ import annotations
-
 import queue
 import logging
 import threading
@@ -63,7 +61,7 @@ class Application:
         return f"<{self.name} ({self.application_id})>"
 
     @property
-    def node(self) -> Node:
+    def node(self) -> "Node":
         if self._node is None:
             raise RuntimeError(
                 "Application has not been registered with a diameter Node; "
@@ -354,7 +352,7 @@ class ThreadingApplication(Application):
         if answer is not None:
             self._resp_msg_queue.put(answer)
 
-    def handle_request(self, message: Message) -> Message | None:
+    def handle_request(self, message: Message) -> "Message | None":
         """Called by diameter node every time a request message is received.
 
         Unlike the base `Application` version of this same method, the
@@ -438,7 +436,7 @@ class SimpleThreadingApplication(ThreadingApplication):
                          max_threads=max_threads)
         self._request_handler = request_handler
 
-    def handle_request(self, message: Message) -> Message | None:
+    def handle_request(self, message: Message) -> "Message | None":
         if self._request_handler:
             return self._request_handler(self, message)
         return None

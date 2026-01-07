@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Capabilities-Exchange Request and Answer messages,
 implementing AVPs documented in rfc6733.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class CapabilitiesExchange(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return CapabilitiesExchangeRequest
         return CapabilitiesExchangeAnswer
@@ -90,17 +88,17 @@ class CapabilitiesExchangeAnswer(CapabilitiesExchange):
     result_code: int
     origin_host: bytes
     origin_realm: bytes
-    host_ip_address: list[str]
+    host_ip_address: "list[str]"
     vendor_id: int
     product_name: str
     origin_state_id: int
     error_message: str
     failed_avp: FailedAvp
-    supported_vendor_id: list[int]
-    auth_application_id: list[int]
-    inband_security_id: list[int]
-    acct_application_id: list[int]
-    vendor_specific_application_id: list[VendorSpecificApplicationId]
+    supported_vendor_id: "list[int]"
+    auth_application_id: "list[int]"
+    inband_security_id: "list[int]"
+    acct_application_id: "list[int]"
+    vendor_specific_application_id: "list[VendorSpecificApplicationId]"
     firmware_revision: int
 
     avp_def: AvpGenType = (
@@ -141,15 +139,15 @@ class CapabilitiesExchangeRequest(CapabilitiesExchange):
     """A Capabilities-Exchange-Request message."""
     origin_host: bytes
     origin_realm: bytes
-    host_ip_address: list[str]
+    host_ip_address: "list[str]"
     vendor_id: int
     product_name: str
     origin_state_id: int
-    supported_vendor_id: list[int]
-    auth_application_id: list[int]
-    inband_security_id: list[int]
-    acct_application_id: list[int]
-    vendor_specific_application_id: list[VendorSpecificApplicationId]
+    supported_vendor_id: "list[int]"
+    auth_application_id: "list[int]"
+    inband_security_id: "list[int]"
+    acct_application_id: "list[int]"
+    vendor_specific_application_id: "list[VendorSpecificApplicationId]"
     firmware_revision: int
 
     avp_def: AvpGenType = (

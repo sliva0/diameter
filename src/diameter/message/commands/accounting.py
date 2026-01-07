@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Accounting Request and Answer messages, implementing
 AVPs documented in rfc6733.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class Accounting(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return AccountingRequest
         return AccountingAnswer
@@ -107,7 +105,7 @@ class AccountingAnswer(Accounting):
     accounting_realtime_required: int
     origin_state_id: int
     event_timestamp: datetime.datetime
-    proxy_info: list[ProxyInfo]
+    proxy_info: "list[ProxyInfo]"
 
     # Additional AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int
@@ -119,7 +117,7 @@ class AccountingAnswer(Accounting):
     nas_port_type: int
     service_type: int
     termination_cause: bytes
-    state_class: list[bytes]
+    state_class: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -187,8 +185,8 @@ class AccountingRequest(Accounting):
     accounting_realtime_required: int
     origin_state_id: int
     event_timestamp: datetime.datetime
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # Additional AVPs from 3GPP TS 32.225 (Diameter Rf Offline Charging)
     event_type: EventType
@@ -197,11 +195,11 @@ class AccountingRequest(Accounting):
     calling_party_address: str
     called_party_address: str
     time_stamps: TimeStamps
-    application_server_information: list[ApplicationServerInformation]
-    inter_operator_identifier: list[InterOperatorIdentifier]
+    application_server_information: "list[ApplicationServerInformation]"
+    inter_operator_identifier: "list[InterOperatorIdentifier]"
     ims_charging_identifier: str
-    sdp_session_description: list[str]
-    sdp_media_component: list[SdpMediaComponent]
+    sdp_session_description: "list[str]"
+    sdp_media_component: "list[SdpMediaComponent]"
     ggsn_address: str
     served_party_ip_address: str
     authorised_qos: str
@@ -221,7 +219,7 @@ class AccountingRequest(Accounting):
     nas_port: int
     nas_port_id: str
     nas_port_type: int
-    state_class: list[bytes]
+    state_class: "list[bytes]"
     service_type: int
     termination_cause: bytes
     accounting_input_octets: int
@@ -238,39 +236,39 @@ class AccountingRequest(Accounting):
     callback_number: str
     called_station_id: str
     calling_station_id: str
-    connection_info: list[str]
+    connection_info: "list[str]"
     originating_line_info: bytes
     authorization_lifetime: int
     session_timeout: int
     idle_timeout: int
     port_limit: int
-    filter_id: list[str]
-    nas_filter_rule: list[bytes]
-    qos_filter_rule: list[bytes]
+    filter_id: "list[str]"
+    nas_filter_rule: "list[bytes]"
+    qos_filter_rule: "list[bytes]"
     framed_appletalk_link: int
-    framed_appletalk_network: list[int]
+    framed_appletalk_network: "list[int]"
     framed_appletalk_zone: bytes
-    framed_compression: list[int]
+    framed_compression: "list[int]"
     framed_interface_id: int
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     framed_ipv6_pool: bytes
-    framed_ipv6_route: list[str]
+    framed_ipv6_route: "list[str]"
     framed_ipx_network: int
     framed_mtu: int
     framed_pool: bytes
     framed_protocol: int
-    framed_route: list[str]
+    framed_route: "list[str]"
     framed_routing: int
-    login_ip_host: list[str]
-    login_ipv6_host: list[bytes]
+    login_ip_host: "list[str]"
+    login_ipv6_host: "list[bytes]"
     login_lat_group: bytes
     login_lat_node: bytes
     login_lat_port: str
     login_lat_service: bytes
     login_service: int
     login_tcp_port: int
-    tunneling: list[Tunneling]
+    tunneling: "list[Tunneling]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

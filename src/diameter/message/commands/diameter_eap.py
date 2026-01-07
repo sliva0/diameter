@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Diameter EAP Request and Answer messages, implementing
 AVPs documented in `rfc4072`.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class DiameterEap(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return DiameterEapRequest
         return DiameterEapAnswer
@@ -108,12 +106,12 @@ class DiameterEapAnswer(DiameterEap):
     accounting_eap_auth_method: int
     service_type: int
     # this should be "class", but that's a reserved keyword
-    state_class: list[bytes]
-    configuration_token: list[bytes]
+    state_class: "list[bytes]"
+    configuration_token: "list[bytes]"
     acct_interim_interval: int
     error_message: str
     error_reporting_host: bytes
-    failed_avp: list[FailedAvp]
+    failed_avp: "list[FailedAvp]"
     idle_timeout: int
     authorization_lifetime: int
     auth_grace_period: int
@@ -121,35 +119,35 @@ class DiameterEapAnswer(DiameterEap):
     re_auth_request_type: int
     session_timeout: int
     state: bytes
-    reply_message: list[str]
+    reply_message: "list[str]"
     origin_state_id: int
-    filter_id: list[str]
+    filter_id: "list[str]"
     port_limit: int
     callback_id: str
     callback_number: str
     framed_appletalk_link: int
-    framed_appletalk_network: list[int]
+    framed_appletalk_network: "list[int]"
     framed_appletalk_zone: bytes
-    framed_compression: list[int]
+    framed_compression: "list[int]"
     framed_interface_id: int
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     framed_ipv6_pool: bytes
-    framed_ipv6_route: list[str]
+    framed_ipv6_route: "list[str]"
     framed_ip_netmask: bytes
-    framed_route: list[str]
+    framed_route: "list[str]"
     framed_pool: bytes
     framed_ipx_network: int
     framed_mtu: int
     framed_protocol: int
     framed_routing: int
-    nas_filter_rule: list[bytes]
-    qos_filter_rule: list[bytes]
-    tunneling: list[Tunneling]
-    redirect_host: list[str]
+    nas_filter_rule: "list[bytes]"
+    qos_filter_rule: "list[bytes]"
+    tunneling: "list[Tunneling]"
+    redirect_host: "list[str]"
     redirect_host_usage: int
     redirect_max_cache_time: int
-    proxy_info: list[ProxyInfo]
+    proxy_info: "list[ProxyInfo]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -265,16 +263,16 @@ class DiameterEapRequest(DiameterEap):
     calling_station_id: str
     originating_line_info: bytes
     connect_info: str
-    framed_compression: list[int]
+    framed_compression: "list[int]"
     framed_interface_id: int
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     framed_ip_netmask: bytes
     framed_mtu: int
     framed_protocol: int
-    tunneling: list[Tunneling]
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    tunneling: "list[Tunneling]"
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

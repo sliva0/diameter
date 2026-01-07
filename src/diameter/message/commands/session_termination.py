@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Session-Termination Request and Answer messages,
 implementing AVPs documented in rfc6733.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -80,7 +78,7 @@ class SessionTermination(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return SessionTerminationRequest
         return SessionTerminationAnswer
@@ -101,15 +99,15 @@ class SessionTerminationAnswer(SessionTermination):
     origin_realm: bytes
     user_name: str
     # this should be "class", but that's a reserved keyword
-    state_class: list[bytes]
+    state_class: "list[bytes]"
     error_message: str
     error_reporting_host: bytes
     failed_avp: FailedAvp
     origin_state_id: int
-    redirect_host: list[str]
+    redirect_host: "list[str]"
     redirect_host_usage: int
     redirect_max_cache_time: int
-    proxy_info: list[ProxyInfo]
+    proxy_info: "list[ProxyInfo]"
 
     # Extension AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int
@@ -157,10 +155,10 @@ class SessionTerminationRequest(SessionTermination):
     termination_cause: int
     user_name: str
     destination_host: bytes
-    state_class: list[bytes]  # this should be "class", but that's a reserved keyword
+    state_class: "list[bytes]"  # this should be "class", but that's a reserved keyword
     origin_state_id: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # Extension AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int

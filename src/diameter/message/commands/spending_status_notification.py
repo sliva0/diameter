@@ -4,8 +4,6 @@ Spending limit reporting over Sy reference point
 This module contains Spending-Status-Notification Request and Answer messages, implementing
 AVPs documented in 3GPP TS 29.219 version 11.2.0 Release 11.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -77,7 +75,7 @@ class SpendingStatusNotification(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return SpendingStatusNotificationRequest
         return SpendingStatusNotificationAnswer
@@ -96,11 +94,11 @@ class SpendingStatusNotificationAnswer(SpendingStatusNotification):
     oc_olr: OcOlr
     error_message: str
     error_reporting_host: bytes
-    redirect_host: list[str]
+    redirect_host: "list[str]"
     redirect_host_usage: int
     redirect_max_cache_time: int
     failed_avp: FailedAvp
-    proxy_info: list[ProxyInfo]
+    proxy_info: "list[ProxyInfo]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -144,10 +142,10 @@ class SpendingStatusNotificationRequest(SpendingStatusNotification):
     auth_application_id: int
     origin_state_id: int
     oc_supported_features: OcSupportedFeatures
-    policy_counter_status_report: list[PolicyCounterStatusReport]
+    policy_counter_status_report: "list[PolicyCounterStatusReport]"
     sn_request_type: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # Extension AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int

@@ -4,8 +4,6 @@ Diameter Credit Control Application
 This module contains Credit Control Request and Answer messages, implementing
 AVPs documented in `rfc8506`, `rfc5777` and `rfc6733`.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class CreditControl(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return CreditControlRequest
         return CreditControlAnswer
@@ -101,7 +99,7 @@ class CreditControlAnswer(CreditControl):
     origin_state_id: int
     event_timestamp: datetime.datetime
     granted_service_unit: GrantedServiceUnit
-    multiple_services_credit_control: list[MultipleServicesCreditControl]
+    multiple_services_credit_control: "list[MultipleServicesCreditControl]"
     cost_information: CostInformation
     final_unit_indication: FinalUnitIndication
     qos_final_unit_indication: QosFinalUnitIndication
@@ -109,15 +107,15 @@ class CreditControlAnswer(CreditControl):
     credit_control_failure_handling: int
     direct_debiting_failure_handling: int
     validity_time: int
-    redirect_host: list[str]
+    redirect_host: "list[str]"
     redirect_host_usage: int
     redirect_max_cache_time: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
-    failed_avp: list[FailedAvp]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
+    failed_avp: "list[FailedAvp]"
     qos_information: QosInformation
     bearer_control_mode: int
-    charging_rule_install: list[ChargingRuleInstall]
+    charging_rule_install: "list[ChargingRuleInstall]"
 
 
     # 3GPP extensions: ETSI 132.299
@@ -185,15 +183,15 @@ class CreditControlAnswer(CreditControl):
     def add_multiple_services_credit_control(
             self, granted_service_unit: GrantedServiceUnit = None,
             requested_service_unit: RequestedServiceUnit = None,
-            used_service_unit: list[UsedServiceUnit] | UsedServiceUnit = None,
+            used_service_unit: "list[UsedServiceUnit] | UsedServiceUnit" = None,
             tariff_change_usage: int = None,
-            service_identifier: list[int] | int = None,
+            service_identifier: "list[int] | int" = None,
             rating_group: int = None,
-            g_s_u_pool_reference: list[GsuPoolReference] = None,
+            g_s_u_pool_reference: "list[GsuPoolReference]" = None,
             validity_time: int = None,
             result_code: int = None,
             final_unit_indication: FinalUnitIndication = None,
-            avp: list[Avp] = None):
+            avp: "list[Avp]" = None):
         """Add a multiple services credit control instance to the answer.
 
         This is identical to doing:
@@ -256,20 +254,20 @@ class CreditControlRequest(CreditControl):
     acct_multi_session_id: bytes
     origin_state_id: int
     event_timestamp: datetime.datetime
-    subscription_id: list[SubscriptionId]
+    subscription_id: "list[SubscriptionId]"
     service_identifier: int
     termination_cause: int
     requested_service_unit: RequestedServiceUnit
     requested_action: int
-    used_service_unit: list[UsedServiceUnit]
+    used_service_unit: "list[UsedServiceUnit]"
     multiple_services_indicator: int
-    multiple_services_credit_control: list[MultipleServicesCreditControl]
-    service_parameter_info: list[ServiceParameterInfo]
+    multiple_services_credit_control: "list[MultipleServicesCreditControl]"
+    service_parameter_info: "list[ServiceParameterInfo]"
     cc_correlation_id: bytes
     user_equipment_info: UserEquipmentInfo
     user_equipment_info_extension: UserEquipmentInfoExtension
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # 3GPP extensions: ETSI 132.299
     aoc_request_type: int
@@ -277,7 +275,7 @@ class CreditControlRequest(CreditControl):
     service_information: ServiceInformation
     #
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     rat_type : int
     ip_can_type : int
     supported_features: SupportedFeatures
@@ -381,15 +379,15 @@ class CreditControlRequest(CreditControl):
     def add_multiple_services_credit_control(
             self, granted_service_unit: GrantedServiceUnit = None,
             requested_service_unit: RequestedServiceUnit = None,
-            used_service_unit: list[UsedServiceUnit] | UsedServiceUnit = None,
+            used_service_unit: "list[UsedServiceUnit] | UsedServiceUnit" = None,
             tariff_change_usage: int = None,
-            service_identifier: list[int] | int = None,
+            service_identifier: "list[int] | int" = None,
             rating_group: int = None,
-            g_s_u_pool_reference: list[GsuPoolReference] = None,
+            g_s_u_pool_reference: "list[GsuPoolReference]" = None,
             validity_time: int = None,
             result_code: int = None,
             final_unit_indication: FinalUnitIndication = None,
-            avp: list[Avp] = None):
+            avp: "list[Avp]" = None):
         """Add a multiple services credit control instance to the request.
 
         This is identical to doing:

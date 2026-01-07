@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains AA Mobile Node Request and Answer messages, implementing
 AVPs documented in `rfc4004`.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class AaMobileNode(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return AaMobileNodeRequest
         return AaMobileNodeAnswer
@@ -109,9 +107,9 @@ class AaMobileNodeAnswer(AaMobileNode):
     mip_msa_lifetime: int
     mip_home_agent_address: str
     mip_mobile_node_address: str
-    mip_filter_rule: list[bytes]
+    mip_filter_rule: "list[bytes]"
     origin_state_id: int
-    proxy_info: list[ProxyInfo]
+    proxy_info: "list[ProxyInfo]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
@@ -176,8 +174,8 @@ class AaMobileNodeRequest(AaMobileNode):
     mip_candidate_home_agent_host: bytes
     mip_home_agent_host: MipHomeAgentHost
     mip_ha_to_fa_spi: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),

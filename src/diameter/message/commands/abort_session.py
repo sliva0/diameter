@@ -4,8 +4,6 @@ Diameter Base Protocol
 This module contains Abort Session Request and Answer messages, implementing
 AVPs documented in `rfc6733`.
 """
-from __future__ import annotations
-
 from typing import Type
 
 from .._base import Message, MessageHeader, DefinedMessage, _AnyMessageType
@@ -79,7 +77,7 @@ class AbortSession(DefinedMessage):
         super().__post_init__()
 
     @classmethod
-    def type_factory(cls, header: MessageHeader) -> Type[_AnyMessageType] | None:
+    def type_factory(cls, header: MessageHeader) -> "Type[_AnyMessageType] | None":
         if header.is_request:
             return AbortSessionRequest
         return AbortSessionAnswer
@@ -97,11 +95,11 @@ class AbortSessionAnswer(AbortSession):
     error_message: str
     error_reporting_host: bytes
     failed_avp: FailedAvp
-    redirect_host: list[str]
+    redirect_host: "list[str]"
     redirect_host_usage: int
     redirect_max_cache_time: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # Extension AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int
@@ -149,8 +147,8 @@ class AbortSessionRequest(AbortSession):
     auth_application_id: int
     user_name: str
     origin_state_id: int
-    proxy_info: list[ProxyInfo]
-    route_record: list[bytes]
+    proxy_info: "list[ProxyInfo]"
+    route_record: "list[bytes]"
 
     # Extension AVPs from rfc7155 (NAS Application)
     origin_aaa_protocol: int
@@ -162,7 +160,7 @@ class AbortSessionRequest(AbortSession):
     nas_port_type: int
     service_type: int
     framed_ip_address: bytes
-    framed_ipv6_prefix: list[bytes]
+    framed_ipv6_prefix: "list[bytes]"
     framed_interface_id: int
     called_station_id: str
     calling_station_id: str
@@ -170,8 +168,8 @@ class AbortSessionRequest(AbortSession):
     acct_session_id: bytes
     acct_multi_session_id: str
     state: bytes
-    state_class: list[bytes]
-    reply_message: list[str]
+    state_class: "list[bytes]"
+    reply_message: "list[str]"
 
     avp_def: AvpGenType = (
         AvpGenDef("session_id", AVP_SESSION_ID, is_required=True),
