@@ -54,7 +54,7 @@ class Application:
             self.application_id, "Unknown Application")
 
         self.is_ready: threading.Event = threading.Event()
-        self._node: Node | None = None
+        self._node: "Node | None" = None
         self._answer_waiting: dict[int, WaitingMessage] = {}
 
     def __str__(self):
@@ -460,7 +460,7 @@ class RequestTimeout(ApplicationError):
 class WaitingMessage:
     def __init__(self):
         self.event: threading.Event = threading.Event()
-        self.answer: Message | None = None
+        self.answer: "Message | None" = None
 
 
 from .node import Node

@@ -242,7 +242,7 @@ class Message:
         return msg
 
     @property
-    def avps(self) ->" list[Avp]":
+    def avps(self) -> "list[Avp]":
         return self._avps
 
     @avps.setter
@@ -458,7 +458,7 @@ class UndefinedMessage(Message):
             else:
                 setattr(parent, attr_name, value)
 
-    def _produce_attr_name(self, avp: Avp) -> str :
+    def _produce_attr_name(self, avp: Avp) -> str:
         attr_name = avp.name.replace("-", "_").lower()
         return attr_name
 

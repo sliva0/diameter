@@ -223,31 +223,31 @@ class Node:
         # Peer instances as a value. It als contains one app entry with
         # string value "_default", which is a list of default peers for the
         # realm (slight deviation of the standard).
-        self._peer_routes: dict[str, dict[Application | str, list[Peer]]] = {
+        self._peer_routes: "dict[str, dict[Application | str, list[Peer]]]" = {
             realm_name: {"_default": []}
         }
         self._app_waiting_answer: "dict[str, Application]" = {}
         # An internal list of hop-by-hop IDs and peers waiting for a matching
         # answer message. The dictionary contains host identities as keys, with
         # dictionaries of hop-by-hop ids and request sent timestamps as values.
-        self._peer_waiting_answer: dict[str, dict[int, float]] = {}
+        self._peer_waiting_answer: "dict[str, dict[int, float]]" = {}
         # An internal list that keeps track of which origin-host is expecting
         # which answer. The list is a dictionary with message identifiers as
         # keys and origin-hosts as answers. This is mostly required for keeping
         # track of which requests have also received an answer, and for
         # retransmission checks.
-        self._origin_waiting_answer: dict[str, tuple[str, float]] = {}
+        self._origin_waiting_answer: "dict[str, tuple[str, float]]" = {}
         # A temporary list of sent end-by-end IDs, stored individually for each
         # origin-host, for retransmission check.
-        self._sent_answers: dict[str, deque[int]] = {}
+        self._sent_answers: "dict[str, deque[int]]" = {}
 
         self.vendor_ids: "set[int]" = set(
             vendor_ids or [i for i in constants.VENDORS.keys() if i > 0])
 
         self.origin_host: str = origin_host
         self.ip_addresses: "list[str]" = ip_addresses or []
-        self.tcp_port: int | None = tcp_port
-        self.sctp_port: int | None = sctp_port
+        self.tcp_port: "int | None" = tcp_port
+        self.sctp_port: "int | None" = sctp_port
         self.realm_name: str = realm_name
         self.state_id: int = int(time.time())
 
@@ -300,7 +300,7 @@ class Node:
         self.session_generator = SessionGenerator(self.origin_host)
         """A unique diameter session ID generator. The next unique session 
         ID can be retrieved `Node.session_generator.next_id()`."""
-        self.statistics_history: deque[dict] = deque(maxlen=1440)
+        self.statistics_history: "deque[dict]" = deque(maxlen=1440)
         """A list of node statistics snapshots, taken at one minute intervals
         and kept for 24 hours. Each snapshot is a dictionary representation of
         a [NodeStats][diameter.node.NodeStats] instance."""
@@ -331,21 +331,21 @@ class Node:
         keys and instances of `Peer` as values.."""
         self.connections: "dict[str, PeerConnection]" = {}
         """Currently handled peer connections."""
-        self.peer_sockets: dict[str, socket.socket | sctp.sctpsocket] = {}
+        self.peer_sockets: "dict[str, socket.socket | sctp.sctpsocket]" = {}
         """Currently held sockets, one for each peer connection."""
         self.socket_peers: "dict[int, PeerConnection]" = {}
         """Peer connection lookup based on socket fileno."""
         self.applications: "list[Application]" = []
         """List of configured applications."""
 
-        self.peer_route_select_func: Callable[[Node, Application, Message, list[Peer]], Peer] = select_least_used_peer
+        self.peer_route_select_func: Callable[[Node, Application, Message, "list[Peer]"], Peer] = select_least_used_peer
         """Callback function used to load balance requests when multiple peers 
         are available. Default is to select the least used connection using 
         [select_least_used_peer][diameter.node.select_least_used_peer]. This 
         can be changed during runtime to use a different load balancing method."""
 
-        self.tcp_sockets: list[socket.socket] = []
-        self.sctp_sockets: list[sctp.sctpsocket] = []
+        self.tcp_sockets: "list[socket.socket]" = []
+        self.sctp_sockets: "list[sctp.sctpsocket]" = []
         self._connection_thread: StoppableThread = StoppableThread(
             target=self._handle_connections)
         self._stat_collect_thread: StoppableThread = StoppableThread(
@@ -932,7 +932,7 @@ class Node:
             self.send_message(conn, err)
             return
 
-        receiving_app: Application | None = None
+        receiving_app: "Application | None" = None
         for app, peers in self._peer_routes[realm_name].items():
             if not isinstance(app, Application):
                 continue

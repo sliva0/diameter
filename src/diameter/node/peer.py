@@ -359,7 +359,7 @@ class PeerConnection:
         self.ident: str = "00" * 6  # needs to be 8 bytes always
         """A unique (for the lifetime of the parent node) connection 
         identifier, a 6-byte long hexadecimal string."""
-        self.ip: "list[str]" | str = peer_ip
+        self.ip: "list[str] | str" = peer_ip
         """The actual peer IP address(es) that the connection socket is 
         connected with."""
         self.message_handler: Callable[[PeerConnection, _AnyMessageType], None] = lambda p, m: None

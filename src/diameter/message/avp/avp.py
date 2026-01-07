@@ -220,7 +220,7 @@ class Avp:
 
     @classmethod
     def new(cls, avp_code: int, vendor_id: int = 0,
-            value:" str | int | float | bytes | list | datetime.datetime" = None,
+            value: "str | int | float | bytes | list | datetime.datetime" = None,
             is_mandatory: bool = None, is_private: bool = None) -> "_AnyAvpType":
         """Generates a new AVP.
 
