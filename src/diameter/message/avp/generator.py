@@ -4,7 +4,7 @@ class attributes and from class attributes back to AVPs.
 """
 import logging
 
-from typing import NamedTuple
+from typing import NamedTuple, Tuple
 
 from .avp import Avp
 from .errors import AvpEncodeError
@@ -31,7 +31,7 @@ class AvpGenDef(NamedTuple):
 
 
 # class attribute, required, avp code, vendor id, mandatory flag, typedef, is list
-AvpGenType = "tuple[AvpGenDef, ...]"
+AvpGenType = Tuple[AvpGenDef, ...]
 
 
 def generate_avps_from_defs(obj: "AvpGenerator", strict: bool = False) -> "list[Avp]":
